@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vutha_app/src/LogInAndRegistation/Otp_Code.dart';
 
 class RegsiationPage extends StatefulWidget {
   @override
@@ -17,15 +19,20 @@ class _RegsiationPageState extends State<RegsiationPage> {
   var _phone_controller = TextEditingController();
 
   bool _value = false;
-
   var country_code;
+  var actualCode;
+  var verificationId;
 
   void _value1Changed(bool value) => setState(() => _value = value);
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _current_country();
   }
 
   @override
@@ -33,11 +40,11 @@ class _RegsiationPageState extends State<RegsiationPage> {
     //Locale myLocale = Localizations.localeOf(context);
 
     // print("Codeeeeeeeeeeeeeeee   ${country_code}");
-    _current_country();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.white,
         appBar: _appBar(),
         body: SingleChildScrollView(
@@ -102,8 +109,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 5),
                                 child: Text(
-                                  '${country_code}' ,
-
+                                  '${country_code}',
                                   style: TextStyle(color: Colors.black54),
                                 ),
                               ),
@@ -141,17 +147,22 @@ class _RegsiationPageState extends State<RegsiationPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 8, right: 8),
-                      width: MediaQuery.of(context).size.width,
-                      height: 40,
-                      decoration: BoxDecoration(color: Colors.orange),
-                      child: Center(
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              color: Color(0xffFDEBE3),
-                              fontWeight: FontWeight.bold),
+                    FlatButton(
+                      onPressed: () {
+                        _sign_up();
+                      },
+                      child: new Container(
+                        margin: EdgeInsets.only(left: 0, right: 0),
+                        width: MediaQuery.of(context).size.width,
+                        height: 40,
+                        decoration: BoxDecoration(color: Colors.orange),
+                        child: Center(
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: Color(0xffFDEBE3),
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),
@@ -217,4 +228,71 @@ class _RegsiationPageState extends State<RegsiationPage> {
   void _back() {
     Navigator.of(context).pop();
   }
+
+  void _sign_up() {
+    if (_name_controller.value.text.isEmpty &&
+        _surName_controller.value.text.isEmpty &&
+        _email_controller.value.text.isEmpty &&
+        _phone_controller.value.text.isEmpty &&
+        _date_of_birth_controller.value.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+          content: new Text(
+        'Empty Fields !',
+        style: TextStyle(color: Colors.red),
+      )));
+    } else {
+      //_sendCodeToPhoneNumber();
+
+
+      verifyPhone();
+    }
+  }
+
+
+
+
+
+  Future<void> verifyPhone() async {
+   // print("Number code" + _current_country_code);
+
+    final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
+      if (verId != null) {
+        print("AAAAAA $verId");
+
+        Navigator.of(context).push(new MaterialPageRoute(
+            builder: (context) => Otp_Code(otp_id: verId)));
+      }
+    };
+    try {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: country_code + _phone_controller.value.text,
+          // PHONE NUMBER TO SEND OTP
+          codeAutoRetrievalTimeout: (String verId) {
+            //Starts the phone number verification process for the given phone number.
+            //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
+            if (verId != null) {
+              print("BBBBB $verId");
+
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (context) => Otp_Code(otp_id: verId)));
+            }
+          },
+          codeSent: smsOTPSent,
+          // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
+          timeout: const Duration(seconds: 20),
+          verificationCompleted: (AuthCredential phoneAuthCredential) {
+            print(phoneAuthCredential);
+          },
+          verificationFailed: (AuthException exceptio) {
+            print('${exceptio.message}');
+          });
+    } catch (e) {
+      print("Errorrrrr  $e");
+    }
+  }
+
+
+
+
+
 }
