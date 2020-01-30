@@ -243,24 +243,19 @@ class _RegsiationPageState extends State<RegsiationPage> {
     } else {
       //_sendCodeToPhoneNumber();
 
-
       verifyPhone();
     }
   }
 
-
-
-
-
   Future<void> verifyPhone() async {
-   // print("Number code" + _current_country_code);
+    // print("Number code" + _current_country_code);
 
     final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
       if (verId != null) {
         print("AAAAAA $verId");
 
         Navigator.of(context).push(new MaterialPageRoute(
-            builder: (context) => Otp_Code(otp_id: verId)));
+            builder: (context) => Otp_Code(otp_id: verId , name: _name_controller.text, email: _email_controller.text, surname: _surName_controller.text, phoneNumber: _phone_controller.text,)));
       }
     };
     try {
@@ -274,7 +269,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
               print("BBBBB $verId");
 
               Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (context) => Otp_Code(otp_id: verId)));
+                  builder: (context) => Otp_Code(otp_id: verId , name: _name_controller.text, email: _email_controller.text, surname: _surName_controller.text, phoneNumber: _phone_controller.text,)));
             }
           },
           codeSent: smsOTPSent,
@@ -290,9 +285,4 @@ class _RegsiationPageState extends State<RegsiationPage> {
       print("Errorrrrr  $e");
     }
   }
-
-
-
-
-
 }

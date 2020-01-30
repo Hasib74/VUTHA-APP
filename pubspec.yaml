@@ -26,6 +26,11 @@ dependencies:
   devicelocale: ^0.2.1
   flutter_sim_country_code: ^0.0.3
   firebase_auth: ^0.15.3+1
+  firebase_database: ^3.1.1
+  google_maps_flutter: ^0.5.21+17
+  location: ^2.3.5
+  geolocator: ^5.2.1
+  font_awesome_flutter: ^8.5.0
 
 dev_dependencies:
   flutter_test:
