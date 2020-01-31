@@ -31,6 +31,8 @@ dependencies:
   location: ^2.3.5
   geolocator: ^5.2.1
   font_awesome_flutter: ^8.5.0
+  shared_preferences: ^0.5.6+1
+  flutter_spinkit: ^4.1.1
 
 dev_dependencies:
   flutter_test:

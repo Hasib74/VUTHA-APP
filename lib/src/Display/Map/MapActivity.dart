@@ -14,6 +14,8 @@ class _MapActivityState extends State<MapActivity> {
 
   var lat, lan = 0.0;
 
+  bool var_check_for_help = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -31,10 +33,9 @@ class _MapActivityState extends State<MapActivity> {
         body: Stack(
           children: <Widget>[
             _buildGoogleMap(context),
-
-            _build_topics(),
-
-            //Text("Ballllll")
+            var_check_for_help == false
+                ? _build_topics()
+                : _requesting_for_help(),
           ],
         ),
       ),
@@ -124,23 +125,35 @@ class _MapActivityState extends State<MapActivity> {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          spreadRadius: 0.5,
-                        )
-                      ]),
-                      height: 35,
-                      child: Center(
-                          child: Text(
-                        "Ambulance",
-                        style: TextStyle(
-                            color: Colors.orange,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17),
-                      )),
+                    child: GestureDetector(
+                      onTap: () {
+
+                        setState(() {
+
+
+                          var_check_for_help = true;
+
+                        });
+
+                      },
+                      child: Container(
+                        decoration:
+                            BoxDecoration(color: Colors.orange, boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            spreadRadius: 0.5,
+                          )
+                        ]),
+                        height: 35,
+                        child: Center(
+                            child: Text(
+                          "Ambulance",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17),
+                        )),
+                      ),
                     ),
                   ),
                   Container(
@@ -150,7 +163,7 @@ class _MapActivityState extends State<MapActivity> {
                     flex: 1,
                     child: Container(
                       decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
+                          BoxDecoration(color: Colors.orange, boxShadow: [
                         BoxShadow(
                           color: Colors.grey,
                           spreadRadius: 0.5,
@@ -161,7 +174,7 @@ class _MapActivityState extends State<MapActivity> {
                           child: Text(
                         "Security",
                         style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 17),
                       )),
@@ -178,7 +191,7 @@ class _MapActivityState extends State<MapActivity> {
                     flex: 1,
                     child: Container(
                       decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
+                          BoxDecoration(color: Colors.orange, boxShadow: [
                         BoxShadow(
                           color: Colors.grey,
                           spreadRadius: 0.5,
@@ -189,7 +202,7 @@ class _MapActivityState extends State<MapActivity> {
                           child: Text(
                         "Home Assist",
                         style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 17),
                       )),
@@ -202,7 +215,7 @@ class _MapActivityState extends State<MapActivity> {
                     flex: 1,
                     child: Container(
                       decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
+                          BoxDecoration(color: Colors.orange, boxShadow: [
                         BoxShadow(
                           color: Colors.grey,
                           spreadRadius: 0.5,
@@ -213,7 +226,7 @@ class _MapActivityState extends State<MapActivity> {
                           child: Text(
                         "Rode Side",
                         style: TextStyle(
-                            color: Colors.orange,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 17),
                       )),
@@ -222,6 +235,82 @@ class _MapActivityState extends State<MapActivity> {
                 ],
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _requesting_for_help() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Wrap(
+          children: <Widget>[
+
+            Container(
+
+              // height: 200,
+
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 5.0,
+                    ),
+                  ]),
+
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  //crossAxisAlignment: CrossAxisAlignment.center,
+
+                  children: <Widget>[
+
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Hold the button below until a request is made and the closest private security will immediately be dispatched to your location",style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w300,
+
+                          letterSpacing: 0.5
+
+                      ),),
+                    ),
+
+
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 13.0, right: 13.0, top: 30),
+                      child: ButtonTheme(
+                       // buttonColor: Colors.orange,
+                        minWidth: double.infinity,
+                        height: 50,
+                        child: RaisedButton(
+                          color: Colors.orange,
+                          child: Text(
+                            "HELP!",
+                            style: TextStyle(color: Color(0xffEAEBF2)),
+                          ),
+                        ),
+                      ),
+                    ),
+
+
+                  ],
+
+                ),
+              ),
+
+            ),
+
           ],
         ),
       ),

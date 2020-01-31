@@ -1,5 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:vutha_app/src/Display/Map/MapActivity.dart';
+import 'package:vutha_app/src/Utls/Common.dart';
+import 'package:vutha_app/src/Utls/Functions.dart';
 
 class Otp_Code extends StatefulWidget {
   final otp_id;
@@ -45,92 +50,118 @@ class _Otp_CodeState extends State<Otp_Code> {
       home: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: loading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  child: Container(
-                    child: new Column(
+            child: Stack(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: Container(
+                child: new Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Image.asset("Img/logo.jpg")),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Image.asset("Img/logo.jpg")),
+                        Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: new TextField(
+                            controller: _otp_code_contoller,
+                            decoration: InputDecoration(
+                              hintText: "Enter OTP Code",
+                              labelText: "Enter OTP",
+                              hintStyle: TextStyle(color: Colors.black12),
+                              labelStyle: TextStyle(color: Color(0xff424242)),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffD8D8D8)),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffD8D8D8)),
+                              ),
+                            ),
+                          ),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: new TextField(
-                                controller: _otp_code_contoller,
-                                decoration: InputDecoration(
-                                  hintText: "Enter OTP Code",
-                                  labelText: "Enter OTP",
-                                  hintStyle: TextStyle(color: Colors.black12),
-                                  labelStyle:
-                                      TextStyle(color: Color(0xff424242)),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xffD8D8D8)),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xffD8D8D8)),
-                                  ),
-                                ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 13.0, right: 13.0, top: 30),
+                          child: ButtonTheme(
+                            minWidth: double.infinity,
+                            height: 50,
+                            child: RaisedButton(
+                              onPressed: () {
+                                setState(() {
+                                  loading = true;
+                                });
+
+                                _testSignInWithPhoneNumber().then((v) {
+                                  print(v);
+
+                                  if (v != "error") {
+                                    FirebaseDatabase.instance
+                                        .reference()
+                                        .child(Common.USER)
+                                        .child(v)
+                                        .set({
+                                      "Name":
+                                          widget.name + " " + widget.surname,
+                                      "Email": widget.email,
+                                      "DOF": widget.dateOfBirth
+                                    }).then((value) =>
+                                            _navigateToOtherActivity(v));
+                                  } else {
+                                    Navigator.of(context).pop();
+                                  }
+                                }).catchError((e) {
+                                  print(e);
+
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                });
+                              },
+                              color: Colors.orange,
+                              child: Text(
+                                "Validate OTP",
+                                style: TextStyle(color: Color(0xffEAEBF2)),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 13.0, right: 13.0, top: 30),
-                              child: ButtonTheme(
-                                minWidth: double.infinity,
-                                height: 50,
-                                child: RaisedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      loading = true;
-                                    });
-
-                                    _testSignInWithPhoneNumber().then((v) {
-                                      print(v);
-
-                                      print(
-                                          "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv  ${v}");
-
-                                      if (v == "success") {
-                                      } else {
-                                        print(
-                                            "Errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrror");
-                                      }
-                                    }).catchError((e) {
-                                      print(e);
-
-                                      setState(() {
-                                        loading = false;
-                                      });
-                                    });
-                                  },
-                                  color: Color(0xff3D52B0),
-                                  child: Text(
-                                    "Validate OTP",
-                                    style: TextStyle(color: Color(0xffEAEBF2)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
+                  ],
                 ),
-        ),
+              ),
+            ),
+            loading
+                ? Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 100.0),
+                      child: SpinKitCircle(
+                        color: Colors.orange,
+                        size: 60,
+                      ),
+                    ),
+                  )
+                : Container(),
+          ],
+        )),
       ),
     );
+  }
+
+  _navigateToOtherActivity(number) {
+    Functions.fun_addLogInInfoToSharePrefarance(number).then((value) {
+      print(value);
+    });
+
+    Navigator.of(context)
+        .push(new MaterialPageRoute(builder: (context) => MapActivity()));
   }
 
   Future<String> _testSignInWithPhoneNumber() async {
@@ -145,7 +176,7 @@ class _Otp_CodeState extends State<Otp_Code> {
           "..............................................  ${v.user.phoneNumber} ");
 
       if (v.user.phoneNumber != null) {
-        status = "success";
+        status = v.user.phoneNumber;
       } else {
         status = "error";
 
