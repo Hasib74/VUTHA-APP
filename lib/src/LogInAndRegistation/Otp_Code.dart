@@ -177,6 +177,8 @@ class _Otp_CodeState extends State<Otp_Code> {
 
       if (v.user.phoneNumber != null) {
         status = v.user.phoneNumber;
+
+        print("Sattus  ${status}");
       } else {
         status = "error";
 

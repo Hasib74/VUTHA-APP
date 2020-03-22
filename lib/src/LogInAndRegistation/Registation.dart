@@ -52,11 +52,8 @@ class _RegsiationPageState extends State<RegsiationPage> {
           appBar: _appBar(),
           body: SingleChildScrollView(
             child: Container(
-
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-
-
               child: Stack(
                 children: <Widget>[
                   Container(
@@ -118,10 +115,12 @@ class _RegsiationPageState extends State<RegsiationPage> {
                                     child: Center(
                                       widthFactor: 0.0,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 5),
+                                        padding:
+                                            const EdgeInsets.only(bottom: 5),
                                         child: Text(
                                           '${country_code}',
-                                          style: TextStyle(color: Colors.black54),
+                                          style:
+                                              TextStyle(color: Colors.black54),
                                         ),
                                       ),
                                     ),
@@ -193,8 +192,8 @@ class _RegsiationPageState extends State<RegsiationPage> {
                             ),
                             Text(
                               "Terms and conditions",
-                              style:
-                                  TextStyle(color: Colors.black38, fontSize: 15),
+                              style: TextStyle(
+                                  color: Colors.black38, fontSize: 15),
                             ),
                           ],
                         )
@@ -203,12 +202,9 @@ class _RegsiationPageState extends State<RegsiationPage> {
                   ),
                   loading
                       ? Align(
-
-
-
                           alignment: Alignment.center,
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom:100.0),
+                            padding: const EdgeInsets.only(bottom: 100.0),
                             child: SpinKitCircle(
                               color: Colors.orange,
                               size: 60,
@@ -242,6 +238,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
     await FlutterSimCountryCode.simCountryCode.then((v) {
       print(v);
 
+      //add the number format
       switch (v.toString()) {
         case "BD":
           setState(() {

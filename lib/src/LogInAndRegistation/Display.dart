@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vutha_app/src/LogInAndRegistation/LogIn.dart';
 import 'package:vutha_app/src/LogInAndRegistation/Registation.dart';
 
 class Display extends StatefulWidget {
@@ -74,6 +75,8 @@ class _DisplayState extends State<Display> {
 
                             onTap: (){
 
+
+                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> LogIn()));
 
 
                             },
