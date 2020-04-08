@@ -13,6 +13,7 @@ class Otp_Code extends StatefulWidget {
   final email;
   final dateOfBirth;
   final phoneNumber;
+  final password;
 
   /*
   *   var _name_controller = TextEditingController();
@@ -30,7 +31,7 @@ class Otp_Code extends StatefulWidget {
       this.phoneNumber,
       this.email,
       this.dateOfBirth,
-      this.surname});
+      this.surname,this.password});
 
   @override
   _Otp_CodeState createState() => _Otp_CodeState();
@@ -39,7 +40,7 @@ class Otp_Code extends StatefulWidget {
 class _Otp_CodeState extends State<Otp_Code> {
   var _otp_code_contoller = TextEditingController();
 
-  FirebaseAuth _auth;
+ // FirebaseAuth _auth;
   bool loading = false;
 
   @override
@@ -109,7 +110,9 @@ class _Otp_CodeState extends State<Otp_Code> {
                                       "Name":
                                           widget.name + " " + widget.surname,
                                       "Email": widget.email,
-                                      "DOF": widget.dateOfBirth
+                                      "DOF": widget.dateOfBirth,
+                                      "Password":widget.password
+
                                     }).then((value) =>
                                             _navigateToOtherActivity(v));
                                   } else {
@@ -161,7 +164,7 @@ class _Otp_CodeState extends State<Otp_Code> {
     });
 
     Navigator.of(context)
-        .push(new MaterialPageRoute(builder: (context) => MapActivity()));
+        .push(new MaterialPageRoute(builder: (context) => MapActivity(number: number)));
   }
 
   Future<String> _testSignInWithPhoneNumber() async {

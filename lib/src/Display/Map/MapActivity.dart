@@ -3,18 +3,25 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vutha_app/src/ApiService/MapApisIntregation.dart';
+import 'package:vutha_app/src/Model/ActiveService.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 
 class MapActivity extends StatefulWidget {
+  var number;
+
+  MapActivity({this.number});
+
   @override
   _MapActivityState createState() => _MapActivityState();
 }
 
 class _MapActivityState extends State<MapActivity> {
   Completer<GoogleMapController> _controller = new Completer();
-  final Map<String, Marker> _markers = {};
+  final Set<Marker> _markers = {};
 
   var lat, lan = 0.0;
 
@@ -28,10 +35,21 @@ class _MapActivityState extends State<MapActivity> {
 
   var status;
 
+  var TAG = "TAG";
+
+  bool isServiceActive = false;
+
+  ActiveService activeService;
+
+  var distance;
+  var duration;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _chnageUpdate_location();
 
     //_basicInfoRead();
   }
@@ -40,61 +58,151 @@ class _MapActivityState extends State<MapActivity> {
   Widget build(BuildContext context) {
     print("Map Activity");
 
+    print(" ${TAG}  ${widget.number}");
+
     // _getCurrentLocation();
 
     //_getLocation();
+
+    getActiveData().then((value) {
+      if (value != null) {
+        setState(() {
+          //  print("${TAG}  value is  ${value.serviceManLat}");
+
+          activeService = value;
+
+          Marker serviceManMarker = new Marker(
+              infoWindow: InfoWindow(title: "Service"),
+              markerId: MarkerId("serviceManMarker"),
+              position: LatLng(value.serviceManLat, value.serviceManLan),
+              icon: BitmapDescriptor.defaultMarkerWithHue(16));
+          Marker userMarker = new Marker(
+              infoWindow: InfoWindow(title: "My Location"),
+              markerId: MarkerId("userMarker"),
+              position: LatLng(value.userlat, value.userLan),
+              icon: BitmapDescriptor.defaultMarkerWithHue(10));
+
+          _markers.clear();
+
+          _markers.add(userMarker);
+          _markers.add(serviceManMarker);
+        });
+
+        getDistanceAndDuration(value);
+      }
+    });
 
     return SafeArea(
       child: Scaffold(
         body: Stack(
           children: <Widget>[
             _buildGoogleMap(context),
-            var_check_for_help == false
-                ? _build_topics()
-                : _requesting_for_help(),
+            // activeService(),
+
+            activeService == null
+                ? var_check_for_help == false
+                    ? _build_topics()
+                    : _requesting_for_help()
+                : activeCard(),
+
+            menuButton(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildGoogleMap(BuildContext context) {
-    _chnageUpdate_location();
+  activeCard() {
+    return Positioned.fill(
+      bottom: 30,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          color: Colors.white.withOpacity(0.6),
+          width: MediaQuery.of(context).size.width / 1.1,
+          height: 200,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "${distance == null ? "" : distance}",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 50,
+                      fontWeight: FontWeight.w900),
+                ),
+                Text(
+                  "${duration == null ? "" : duration}",
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Confirm",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.mode_comment,
+                          color: Colors.black,
+                          size: 20,
+                        ))
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
+  Widget _buildGoogleMap(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        markers: _markers,
         mapType: MapType.normal,
         initialCameraPosition:
-            CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 25),
+            CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 14),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
       ),
     );
   }
-
-/*
-  void _getLocation() async {
-    var currentLocation = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
-    setState(() {
-      _markers.clear();
-
-      final marker = Marker(
-        markerId: MarkerId("curr_loc"),
-        position: LatLng(currentLocation.latitude, currentLocation.longitude),
-
-        infoWindow: InfoWindow(title: 'Your Location'),
-        icon: BitmapDescriptor.defaultMarker
-      );
-      _markers["Current Location"]  = marker;
-    });
-  }
-*/
 
   void _chnageUpdate_location() async {
     var geolocator = Geolocator();
@@ -120,18 +228,8 @@ class _MapActivityState extends State<MapActivity> {
       });
 
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(position.latitude, position.longitude), zoom: 25)));
+          target: LatLng(position.latitude, position.longitude), zoom: 14)));
     });
-  }
-
-  _build_text() {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Text(
-        "Lat =   ${lat}  +  Lan =  ${lan} ",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-    );
   }
 
   _build_topics() {
@@ -474,5 +572,63 @@ class _MapActivityState extends State<MapActivity> {
         .remove()
         .then((value) => print("remove"))
         .catchError((err) => print("Error  ${err}"));
+  }
+
+  menuButton() {
+    return Positioned(
+      top: 10,
+      left: 10,
+      child: Icon(
+        Icons.menu,
+        color: Colors.orange,
+        size: 30,
+      ),
+    );
+  }
+
+  Future<ActiveService> getActiveData() async {
+    ActiveService activeService;
+
+    await FirebaseDatabase.instance
+        .reference()
+        .child("Serve")
+        .once()
+        .then((value) {
+      Map<dynamic, dynamic> _readAllService = value.value;
+
+      _readAllService.forEach((serviceNumber, value) {
+        Map<dynamic, dynamic> _myService = value;
+
+        _myService.forEach((key, value) {
+          print("Keyyyyy  ${key}");
+          print("Valueeeeeeeeeeeeeee    ${value}");
+
+          if (value["userNumber"] == widget.number) {
+            print("${TAG}     ========================");
+
+            activeService = new ActiveService(
+                serviceManLan: value["serviceManLan"],
+                serviceManLat: value["serviceManLat"],
+                userLan: value["lan"],
+                userlat: value["lat"],
+                serviceManNumber: serviceNumber);
+          }
+        });
+      });
+    });
+
+    return activeService;
+  }
+
+  void getDistanceAndDuration(ActiveService activeService) {
+    GoogleMapsServices()
+        .getDistance(LatLng(activeService.userlat, activeService.userLan),
+            LatLng(activeService.serviceManLat, activeService.serviceManLan))
+        .then((value) {
+      setState(() {
+        distance = value[0]["distance"]["text"];
+        duration = value[0]["duration"]["text"];
+      });
+    });
   }
 }

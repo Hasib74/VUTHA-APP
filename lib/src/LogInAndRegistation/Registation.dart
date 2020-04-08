@@ -18,9 +18,11 @@ class _RegsiationPageState extends State<RegsiationPage> {
   var _email_controller = TextEditingController();
   var _date_of_birth_controller = TextEditingController();
   var _phone_controller = TextEditingController();
+  var _password_controller = TextEditingController();
+  var _confirm_password_controller = TextEditingController();
 
   bool _check_value = false;
-  var country_code;
+  var country_code = "+27";
   var actualCode;
   var verificationId;
 
@@ -35,15 +37,11 @@ class _RegsiationPageState extends State<RegsiationPage> {
     // TODO: implement initState
     super.initState();
 
-    _current_country();
+    //_current_country();
   }
 
   @override
   Widget build(BuildContext context) {
-    //Locale myLocale = Localizations.localeOf(context);
-
-    // print("Codeeeeeeeeeeeeeeee   ${country_code}");
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -137,6 +135,32 @@ class _RegsiationPageState extends State<RegsiationPage> {
                                   filled: true,
                                   //fillColor: Colors.grey[300],
                                   hintText: 'Email',
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                obscureText: true,
+                                controller: _password_controller,
+                                decoration: new InputDecoration(
+                                  filled: true,
+                                  //fillColor: Colors.grey[300],
+                                  hintText: 'Password',
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                obscureText: true,
+                                controller: _confirm_password_controller,
+                                decoration: new InputDecoration(
+                                  filled: true,
+                                  //fillColor: Colors.grey[300],
+                                  hintText: 'Password',
                                   border: InputBorder.none,
                                 ),
                               ),
@@ -254,9 +278,8 @@ class _RegsiationPageState extends State<RegsiationPage> {
     Navigator.of(context).pop();
   }
 
-  void _sign_up() {
-    if (_check_value) {
-      if (_name_controller.value.text.isEmpty &&
+  /*
+  *   if (_name_controller.value.text.isEmpty &&
           _surName_controller.value.text.isEmpty &&
           _email_controller.value.text.isEmpty &&
           _phone_controller.value.text.isEmpty &&
@@ -274,6 +297,41 @@ class _RegsiationPageState extends State<RegsiationPage> {
         });
 
         verifyPhone();
+      }
+  *
+  * */
+
+  void _sign_up() {
+    if (_check_value) {
+      if (_password_controller.value.text != null &&
+          _password_controller.value.text ==
+              _confirm_password_controller.value.text &&
+          _password_controller.value.text.length > 5) {
+        if (_name_controller.value.text.isEmpty &&
+            _surName_controller.value.text.isEmpty &&
+            _email_controller.value.text.isEmpty &&
+            _phone_controller.value.text.isEmpty &&
+            _date_of_birth_controller.value.text.isEmpty) {
+          _scaffoldKey.currentState.showSnackBar(new SnackBar(
+              content: new Text(
+            'Empty Fields !',
+            style: TextStyle(color: Colors.red),
+          )));
+        } else {
+          //_sendCodeToPhoneNumber();
+
+          setState(() {
+            loading = true;
+          });
+
+          verifyPhone();
+        }
+      } else {
+        new SnackBar(
+            content: new Text(
+          'Password is not formated',
+          style: TextStyle(color: Colors.red),
+        ));
       }
     } else {
       new SnackBar(
@@ -326,6 +384,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
                         email: _email_controller.text,
                         surname: _surName_controller.text,
                         phoneNumber: _phone_controller.text,
+                    password: _password_controller.value.text,
                       )));
             }
           },

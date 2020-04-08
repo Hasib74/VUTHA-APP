@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vutha_app/src/Display/Map/MapActivity.dart';
 import 'package:vutha_app/src/LogInAndRegistation/Otp_Code.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
+import 'package:vutha_app/src/Utls/Functions.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class LogIn extends StatefulWidget {
 class _LogInPageState extends State<LogIn> {
   //var _name_controller = TextEditingController();
   // var _surName_controller = TextEditingController();
-  var _email_controller = TextEditingController();
+  var _number_controller = TextEditingController();
   var _password_controller = TextEditingController();
 
   // var _phone_controller = TextEditingController();
@@ -52,29 +53,31 @@ class _LogInPageState extends State<LogIn> {
           key: _scaffoldKey,
           backgroundColor: Colors.white,
           appBar: _appBar(),
-          body: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height -
-                        (_appBar().preferredSize.height + 25),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // Image.asset("Img/piza.jpg"),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height -
+                          (_appBar().preferredSize.height + 25),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // Image.asset("Img/piza.jpg"),
 
-                        _title(),
-                        _emailAndPasswordAndButton(),
+                          _title(),
+                          _emailAndPasswordAndButton(),
 
-                        loading ? _loading() : Container(),
-                      ],
+                          loading ? _loading() : Container(),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           )),
@@ -89,11 +92,21 @@ class _LogInPageState extends State<LogIn> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            controller: _email_controller,
+            controller: _number_controller,
+            keyboardType: TextInputType.number,
             decoration: new InputDecoration(
+              prefixIcon: SizedBox(
+                child: Center(
+                  widthFactor: 0.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: Text('+27', style: TextStyle(fontSize: 15)),
+                  ),
+                ),
+              ),
               filled: true,
               //fillColor: Colors.grey[300],
-              hintText: 'Email',
+              hintText: '',
               border: InputBorder.none,
             ),
           ),
@@ -181,44 +194,44 @@ class _LogInPageState extends State<LogIn> {
   }
 
   void _logIn() {
-    if (_check_value) {
-      if (_email_controller.value.text.isEmpty &&
-          _password_controller.value.text.isEmpty) {
-        _scaffoldKey.currentState.showSnackBar(new SnackBar(
-            content: new Text(
-          'Empty Fields !',
-          style: TextStyle(color: Colors.red),
-        )));
-      } else {
-        //_sendCodeToPhoneNumber();
-
-        _logInWithEmailAndPassword(
-            _email_controller.value.text, _password_controller.value.text);
-
-        setState(() {
-          loading = true;
-        });
-      }
-    } else {
-      new SnackBar(
+    if (_number_controller.value.text.isEmpty &&
+        _password_controller.value.text.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
           content: new Text(
-        'Please check Terms and conditions',
+        'Empty Fields !',
         style: TextStyle(color: Colors.red),
-      ));
+      )));
+    } else {
+      //_sendCodeToPhoneNumber();
+
+      _logInWithNumberAndPassword("+27" + _number_controller.value.text,
+          _password_controller.value.text);
+
+      setState(() {
+        loading = true;
+      });
     }
   }
 
-  void _logInWithEmailAndPassword(String email, String paswweor) {
+  void _logInWithNumberAndPassword(String number, String paswweor) {
     FirebaseDatabase.instance
         .reference()
         .child(Common.USER)
-        .child(_email_controller.value.text)
+        .child(number)
         .once()
         .then((value) {
       if (value.value != null) {
-        if (value.value["password"] == _password_controller.value.text) {
-          Navigator.of(context)
-              .push(new MaterialPageRoute(builder: (context) => MapActivity()));
+        if (value.value["Password"] == _password_controller.value.text) {
+
+
+
+          Functions.fun_addLogInInfoToSharePrefarance(number).then((value){
+
+            Navigator.of(context)
+                .pushReplacement(new MaterialPageRoute(builder: (context) => MapActivity(number: number,)));
+
+          });
+
         } else {
           showDialog(
               context: context,
