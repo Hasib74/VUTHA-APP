@@ -4,5 +4,6 @@ class Common{
 
  static  String user_number ;
  static  String help_request = "HelpRequest";
+ static  var Chat ="Chat";
 
 }

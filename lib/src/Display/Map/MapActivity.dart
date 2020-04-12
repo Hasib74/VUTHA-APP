@@ -1,12 +1,11 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vutha_app/src/ApiService/MapApisIntregation.dart';
+import 'package:vutha_app/src/Display/Drawer/NavigationDrawer.dart';
 import 'package:vutha_app/src/Model/ActiveService.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 
@@ -44,14 +43,14 @@ class _MapActivityState extends State<MapActivity> {
   var distance;
   var duration;
 
+  GlobalKey<ScaffoldState> _key = new GlobalKey();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     _chnageUpdate_location();
-
-    //_basicInfoRead();
   }
 
   @override
@@ -59,10 +58,6 @@ class _MapActivityState extends State<MapActivity> {
     print("Map Activity");
 
     print(" ${TAG}  ${widget.number}");
-
-    // _getCurrentLocation();
-
-    //_getLocation();
 
     getActiveData().then((value) {
       if (value != null) {
@@ -92,8 +87,24 @@ class _MapActivityState extends State<MapActivity> {
       }
     });
 
+    closeDrawer() {
+
+    //  if(_key.currentState.isDrawerOpen){
+
+        _key.currentState.openEndDrawer();
+
+      //}
+
+    }
+
     return SafeArea(
       child: Scaffold(
+        key: _key,
+        drawer: NavigationDrawer(
+          MapActivity().key,
+          closeDrawer,
+          widget.number
+        ),
         body: Stack(
           children: <Widget>[
             _buildGoogleMap(context),
@@ -575,13 +586,22 @@ class _MapActivityState extends State<MapActivity> {
   }
 
   menuButton() {
-    return Positioned(
-      top: 10,
-      left: 10,
-      child: Icon(
-        Icons.menu,
-        color: Colors.orange,
-        size: 30,
+    return InkWell(
+      onTap: () {
+        if (_key.currentState.isDrawerOpen) {
+          _key.currentState.openEndDrawer();
+        } else {
+          _key.currentState.openDrawer();
+        }
+      },
+      child: Positioned(
+        top: 15,
+        left: 15,
+        child: Icon(
+          Icons.menu,
+          color: Colors.orange,
+          size: 30,
+        ),
       ),
     );
   }
