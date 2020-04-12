@@ -163,8 +163,7 @@ class _Otp_CodeState extends State<Otp_Code> {
       print(value);
     });
 
-    Navigator.of(context)
-        .push(new MaterialPageRoute(builder: (context) => MapActivity(number: number)));
+    Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => MapActivity(number: number)));
   }
 
   Future<String> _testSignInWithPhoneNumber() async {

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -88,23 +89,17 @@ class _MapActivityState extends State<MapActivity> {
     });
 
     closeDrawer() {
+      //  if(_key.currentState.isDrawerOpen){
 
-    //  if(_key.currentState.isDrawerOpen){
-
-        _key.currentState.openEndDrawer();
+      _key.currentState.openEndDrawer();
 
       //}
-
     }
 
     return SafeArea(
       child: Scaffold(
         key: _key,
-        drawer: NavigationDrawer(
-          MapActivity().key,
-          closeDrawer,
-          widget.number
-        ),
+        drawer: NavigationDrawer(MapActivity().key, closeDrawer, widget.number),
         body: Stack(
           children: <Widget>[
             _buildGoogleMap(context),

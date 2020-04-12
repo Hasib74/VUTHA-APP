@@ -48,197 +48,178 @@ class _RegsiationPageState extends State<RegsiationPage> {
           key: _scaffoldKey,
           backgroundColor: Colors.white,
           appBar: _appBar(),
-          body: SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height -
-                        (_appBar().preferredSize.height + 25),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // Image.asset("Img/piza.jpg"),
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height -
+                      (_appBar().preferredSize.height ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      // Image.asset("Img/piza.jpg"),
 
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Sign up ",
-                            style: TextStyle(
-                                color: Color(0xff172E4B),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Sign up ",
+                          style: TextStyle(
+                              color: Color(0xff172E4B),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: _name_controller,
+                          decoration: new InputDecoration(
+                            filled: true,
+                            //fillColor: Colors.grey[300],
+                            hintText: 'Name',
+                            border: InputBorder.none,
                           ),
                         ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: _surName_controller,
+                          decoration: new InputDecoration(
+                            filled: true,
+                            //fillColor: Colors.grey[300],
+                            hintText: 'Surname',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: _phone_controller,
+                          decoration: new InputDecoration(
+                            filled: true,
+                            //fillColor: Colors.grey[300],
 
-                        Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                controller: _name_controller,
-                                decoration: new InputDecoration(
-                                  filled: true,
-                                  //fillColor: Colors.grey[300],
-                                  hintText: 'Name',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                controller: _surName_controller,
-                                decoration: new InputDecoration(
-                                  filled: true,
-                                  //fillColor: Colors.grey[300],
-                                  hintText: 'Surname',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                controller: _phone_controller,
-                                decoration: new InputDecoration(
-                                  filled: true,
-                                  //fillColor: Colors.grey[300],
-
-                                  hintText: '',
-                                  prefixIcon: SizedBox(
-                                    child: Center(
-                                      widthFactor: 0.0,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 5),
-                                        child: Text(
-                                          '${country_code}',
-                                          style:
-                                              TextStyle(color: Colors.black54),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                controller: _email_controller,
-                                decoration: new InputDecoration(
-                                  filled: true,
-                                  //fillColor: Colors.grey[300],
-                                  hintText: 'Email',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                obscureText: true,
-                                controller: _password_controller,
-                                decoration: new InputDecoration(
-                                  filled: true,
-                                  //fillColor: Colors.grey[300],
-                                  hintText: 'Password',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                obscureText: true,
-                                controller: _confirm_password_controller,
-                                decoration: new InputDecoration(
-                                  filled: true,
-                                  //fillColor: Colors.grey[300],
-                                  hintText: 'Password',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                controller: _date_of_birth_controller,
-                                decoration: new InputDecoration(
-                                  filled: true,
-                                  //fillColor: Colors.grey[300],
-                                  hintText: 'Date Of Birth',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            FlatButton(
-                              onPressed: () {
-                                _sign_up();
-                              },
-                              child: new Container(
-                                margin: EdgeInsets.only(left: 0, right: 0),
-                                width: MediaQuery.of(context).size.width,
-                                height: 40,
-                                decoration: BoxDecoration(color: Colors.orange),
-                                child: Center(
+                            hintText: '',
+                            prefixIcon: SizedBox(
+                              child: Center(
+                                widthFactor: 0.0,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(bottom: 5),
                                   child: Text(
-                                    "Sign Up",
-                                    style: TextStyle(
-                                        color: Color(0xffFDEBE3),
-                                        fontWeight: FontWeight.bold),
+                                    '${country_code}',
+                                    style:
+                                        TextStyle(color: Colors.black54),
                                   ),
                                 ),
                               ),
                             ),
-                          ],
+                            border: InputBorder.none,
+                          ),
                         ),
-
-                        Spacer(),
-
-                        Row(
-                          //crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-
-                          children: <Widget>[
-                            new Checkbox(
-                              value: _check_value,
-                              onChanged: _value1Changed,
-                              activeColor: Colors.orange,
-                            ),
-                            Text(
-                              "Terms and conditions",
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: _email_controller,
+                          decoration: new InputDecoration(
+                            filled: true,
+                            //fillColor: Colors.grey[300],
+                            hintText: 'Email',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          obscureText: true,
+                          controller: _password_controller,
+                          decoration: new InputDecoration(
+                            filled: true,
+                            //fillColor: Colors.grey[300],
+                            hintText: 'Password',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          obscureText: true,
+                          controller: _confirm_password_controller,
+                          decoration: new InputDecoration(
+                            filled: true,
+                            //fillColor: Colors.grey[300],
+                            hintText: 'Password',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: _date_of_birth_controller,
+                          decoration: new InputDecoration(
+                            filled: true,
+                            //fillColor: Colors.grey[300],
+                            hintText: 'Date Of Birth',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          _sign_up();
+                        },
+                        child: new Container(
+                          margin: EdgeInsets.only(left: 0, right: 0),
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          decoration: BoxDecoration(color: Colors.orange),
+                          child: Center(
+                            child: Text(
+                              "Sign Up",
                               style: TextStyle(
-                                  color: Colors.black38, fontSize: 15),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  loading
-                      ? Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 100.0),
-                            child: SpinKitCircle(
-                              color: Colors.orange,
-                              size: 60,
+                                  color: Color(0xffFDEBE3),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                        )
-                      : Container(),
-                ],
+                        ),
+                      ),
+
+                      Spacer(),
+
+                      Row(
+                        //crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: <Widget>[
+                          new Checkbox(
+                            value: _check_value,
+                            onChanged: _value1Changed,
+                            activeColor: Colors.orange,
+                          ),
+                          Text(
+                            "Terms and conditions",
+                            style: TextStyle(
+                                color: Colors.black38, fontSize: 15),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ),
-            ),
+              Loading(),
+            ],
           )),
     );
   }
@@ -404,5 +385,21 @@ class _RegsiationPageState extends State<RegsiationPage> {
         loading = false;
       });
     }
+  }
+
+  Loading() {
+
+    return  loading
+        ? Align(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 100.0),
+        child: SpinKitCircle(
+          color: Colors.orange,
+          size: 60,
+        ),
+      ),
+    )
+        : Container();
   }
 }

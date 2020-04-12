@@ -64,7 +64,7 @@ class _ExtraInfoState extends State<ExtraInfo> {
 
               //pay now
 
-              Container(
+               Container(
                 padding: EdgeInsets.all(10),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(color: Colors.white, boxShadow: [
@@ -93,7 +93,7 @@ class _ExtraInfoState extends State<ExtraInfo> {
                         style: TextStyle(letterSpacing: 3),
                       ),
                     )
-                  ],
+                  ],  
                 ),
               ),
 

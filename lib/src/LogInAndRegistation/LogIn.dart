@@ -222,16 +222,12 @@ class _LogInPageState extends State<LogIn> {
         .then((value) {
       if (value.value != null) {
         if (value.value["Password"] == _password_controller.value.text) {
-
-
-
-          Functions.fun_addLogInInfoToSharePrefarance(number).then((value){
-
-            Navigator.of(context)
-                .pushReplacement(new MaterialPageRoute(builder: (context) => MapActivity(number: number,)));
-
+          Functions.fun_addLogInInfoToSharePrefarance(number).then((value) {
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (context) => MapActivity(
+                      number: number,
+                    )));
           });
-
         } else {
           showDialog(
               context: context,

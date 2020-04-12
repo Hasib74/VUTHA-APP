@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:vutha_app/src/Display/Chat/Chat.dart';
+import 'package:vutha_app/src/LogInAndRegistation/Display.dart';
+import 'package:vutha_app/src/Utls/Functions.dart';
 //import 'Chat';
 
 class NavigationDrawer extends StatelessWidget {
@@ -49,6 +51,22 @@ class NavigationDrawer extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 17),
                 ),
+              ),
+              ListTile(
+                onTap: () {
+                  removeLogInInfo(context);
+                },
+                leading: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.orange,
+                ),
+                title: Text(
+                  "Log Out",
+                  style: TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17),
+                ),
               )
             ],
           ),
@@ -71,5 +89,10 @@ class NavigationDrawer extends StatelessWidget {
             child: Icon(
               Icons.close,
             )));
+  }
+
+  void removeLogInInfo(BuildContext context) async {
+    Functions.logOut();
+    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Display()));
   }
 }

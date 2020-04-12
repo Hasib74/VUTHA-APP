@@ -24,17 +24,14 @@ class _ChatState extends State<Chat> {
     // TODO: implement initState
     super.initState();
 
-    widget.number = "+8801406582590";
+    //widget.number = "+8801406582590";
   }
 
   @override
   Widget build(BuildContext context) {
 //    print("Number is  ${number}");
 
-    size = MediaQuery
-        .of(context)
-        .size
-        .width;
+    size = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: Column(
@@ -139,10 +136,7 @@ class _ChatState extends State<Chat> {
       padding: const EdgeInsets.only(top: 8.0),
       child: Container(
         alignment: Alignment.bottomCenter,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        width: MediaQuery.of(context).size.width,
         height: 50,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
@@ -150,40 +144,40 @@ class _ChatState extends State<Chat> {
             children: <Widget>[
               Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    child: Container(
-                      child: TextField(
-                          onChanged: (v) {
-                            setState(() {
-                              text = v;
-                            });
-                          },
-                          controller: chat_edit_text_controller,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              fillColor: Color(0xfff3f3f4),
-                              filled: true)),
-                    ),
-                  )),
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: Container(
+                  child: TextField(
+                      onChanged: (v) {
+                        setState(() {
+                          text = v;
+                        });
+                      },
+                      controller: chat_edit_text_controller,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Color(0xfff3f3f4),
+                          filled: true)),
+                ),
+              )),
               text != null
                   ? InkWell(
-                onTap: () => send_message(),
-                child: Icon(
-                  Icons.send,
-                  color: Colors.orange,
-                  size: 30,
-                ),
-              )
+                      onTap: () => send_message(),
+                      child: Icon(
+                        Icons.send,
+                        color: Colors.orange,
+                        size: 30,
+                      ),
+                    )
                   : InkWell(
-                //  onTap: ()=>send_message(),
+                      //  onTap: ()=>send_message(),
 
-                child: Icon(
-                  Icons.send,
-                  color: Colors.black54,
-                  size: 30,
-                ),
-              )
+                      child: Icon(
+                        Icons.send,
+                        color: Colors.black54,
+                        size: 30,
+                      ),
+                    )
             ],
           ),
         ),
@@ -192,7 +186,12 @@ class _ChatState extends State<Chat> {
   }
 
   send_message() {
+    var message;
+
     if (chat_edit_text_controller.value.text.isNotEmpty) {
+      message = chat_edit_text_controller.value.text;
+
+      chat_edit_text_controller.text = "";
       FirebaseDatabase.instance
           .reference()
           .child(Common.Chat)
@@ -206,9 +205,13 @@ class _ChatState extends State<Chat> {
               .child(widget.number)
               .child("1")
               .set({
-            "message": chat_edit_text_controller.value.text,
-            "type": "user"
-          }).then((value) => chat_edit_text_controller.text = "");
+            "message": message,
+            "type": "user",
+            "time": new DateTime.now()
+                .toIso8601String()
+                .replaceAll(":", ".")
+                .replaceAll("-", "."),
+          });
         } else {
           FirebaseDatabase.instance
               .reference()
@@ -216,9 +219,13 @@ class _ChatState extends State<Chat> {
               .child(widget.number)
               .child("${value.value.length + 1}")
               .set({
-            "message": chat_edit_text_controller.value.text,
-            "type": "user"
-          }).then((value) => chat_edit_text_controller.text = "");
+            "message": message,
+            "type": "user",
+            "time": new DateTime.now()
+                .toIso8601String()
+                .replaceAll(":", ".")
+                .replaceAll("-", "."),
+          });
         }
       });
     }

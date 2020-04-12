@@ -27,4 +27,12 @@ class Functions {
 
     return sp.getString("logIn");
   }
+
+
+  static  logOut() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+
+    return sp.remove("logIn");
+  }
+
 }
