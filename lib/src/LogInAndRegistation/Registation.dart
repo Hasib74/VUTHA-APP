@@ -1,5 +1,6 @@
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
@@ -20,6 +21,14 @@ class _RegsiationPageState extends State<RegsiationPage> {
   var _phone_controller = TextEditingController();
   var _password_controller = TextEditingController();
   var _confirm_password_controller = TextEditingController();
+
+  var _name_node = new FocusNode();
+  var _surName_node = new FocusNode();
+  var _email_node = new FocusNode();
+  var _dateOfBirth_node = new FocusNode();
+  var _phoeNumber_node = new FocusNode();
+  var _password_node = new FocusNode();
+  var _confirmPassword_node = new FocusNode();
 
   bool _check_value = false;
   var country_code = "+27";
@@ -50,178 +59,222 @@ class _RegsiationPageState extends State<RegsiationPage> {
           appBar: _appBar(),
           body: Stack(
             children: <Widget>[
-              SingleChildScrollView(
-                child: Container(
-                  height: MediaQuery.of(context).size.height -
-                      (_appBar().preferredSize.height ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      // Image.asset("Img/piza.jpg"),
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Sign up ",
-                          style: TextStyle(
-                              color: Color(0xff172E4B),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _name_controller,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            //fillColor: Colors.grey[300],
-                            hintText: 'Name',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _surName_controller,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            //fillColor: Colors.grey[300],
-                            hintText: 'Surname',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _phone_controller,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            //fillColor: Colors.grey[300],
-
-                            hintText: '',
-                            prefixIcon: SizedBox(
-                              child: Center(
-                                widthFactor: 0.0,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(bottom: 5),
-                                  child: Text(
-                                    '${country_code}',
-                                    style:
-                                        TextStyle(color: Colors.black54),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _email_controller,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            //fillColor: Colors.grey[300],
-                            hintText: 'Email',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          obscureText: true,
-                          controller: _password_controller,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            //fillColor: Colors.grey[300],
-                            hintText: 'Password',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          obscureText: true,
-                          controller: _confirm_password_controller,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            //fillColor: Colors.grey[300],
-                            hintText: 'Password',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _date_of_birth_controller,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            //fillColor: Colors.grey[300],
-                            hintText: 'Date Of Birth',
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      FlatButton(
-                        onPressed: () {
-                          _sign_up();
-                        },
-                        child: new Container(
-                          margin: EdgeInsets.only(left: 0, right: 0),
-                          width: MediaQuery.of(context).size.width,
-                          height: 40,
-                          decoration: BoxDecoration(color: Colors.orange),
-                          child: Center(
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  color: Color(0xffFDEBE3),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Spacer(),
-
-                      Row(
-                        //crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-
-                        children: <Widget>[
-                          new Checkbox(
-                            value: _check_value,
-                            onChanged: _value1Changed,
-                            activeColor: Colors.orange,
-                          ),
-                          Text(
-                            "Terms and conditions",
-                            style: TextStyle(
-                                color: Colors.black38, fontSize: 15),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              ColumWithSingUpTextAndTexFromAndButtonAndTrmasAndCondition(
+                  context),
               Loading(),
             ],
           )),
     );
+  }
+
+  Column ColumWithSingUpTextAndTexFromAndButtonAndTrmasAndCondition(
+      BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        // Image.asset("Img/piza.jpg"),
+
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Sign up ",
+            style: TextStyle(
+                color: Color(0xff172E4B),
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+
+        TextFiledAndSignUpButtonWithTramsAndCondition(context),
+
+        //  Spacer(),
+      ],
+    );
+  }
+
+  Expanded TextFiledAndSignUpButtonWithTramsAndCondition(BuildContext context) {
+    return Expanded(
+        child: ListView(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            focusNode: _name_node,
+            controller: _name_controller,
+            textInputAction: TextInputAction.next,
+            onSubmitted: (a) {
+              _fieldFocusChange(context, _name_node, _surName_node);
+            },
+            decoration: new InputDecoration(
+              filled: true,
+              //fillColor: Colors.grey[300],
+              hintText: 'Name',
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            focusNode: _surName_node,
+            controller: _surName_controller,
+            textInputAction: TextInputAction.next,
+            onSubmitted: (a) {
+              _fieldFocusChange(context, _surName_node, _phoeNumber_node);
+            },
+            decoration: new InputDecoration(
+              filled: true,
+              //fillColor: Colors.grey[300],
+              hintText: 'Surname',
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            focusNode: _phoeNumber_node,
+            keyboardType: TextInputType.number,
+            controller: _phone_controller,
+            textInputAction: TextInputAction.next,
+
+            onSubmitted: (a) {
+              _fieldFocusChange(context, _phoeNumber_node, _email_node);
+            },
+
+            decoration: new InputDecoration(
+              filled: true,
+              //fillColor: Colors.grey[300],
+
+              hintText: '',
+              prefixIcon: SizedBox(
+                child: Center(
+                  widthFactor: 0.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Text(
+                      '${country_code}',
+                      style: TextStyle(color: Colors.black54),
+                    ),
+                  ),
+                ),
+              ),
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            focusNode: _email_node,
+            controller: _email_controller,
+            textInputAction: TextInputAction.next,
+
+            onSubmitted: (a) {
+              _fieldFocusChange(context, _email_node, _password_node);
+            },
+
+            decoration: new InputDecoration(
+              filled: true,
+              //fillColor: Colors.grey[300],
+              hintText: 'Email',
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            focusNode: _password_node,
+            obscureText: true,
+            controller: _password_controller,
+            onSubmitted: (a) {
+              _fieldFocusChange(context, _password_node, _confirmPassword_node);
+            },
+            decoration: new InputDecoration(
+              filled: true,
+              //fillColor: Colors.grey[300],
+              hintText: 'Password',
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            focusNode: _confirmPassword_node,
+            obscureText: true,
+            controller: _confirm_password_controller,
+            textInputAction: TextInputAction.next,
+
+            onSubmitted: (a) {
+              _fieldFocusChange(context, _confirmPassword_node, _dateOfBirth_node);
+            },
+            decoration: new InputDecoration(
+              filled: true,
+              //fillColor: Colors.grey[300],
+              hintText: 'Confirm Password',
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: _date_of_birth_controller,
+
+
+           /* onSubmitted: (a) {
+              _fieldFocusChange(context, _phoeNumber_node, _email_node);
+            },*/
+            decoration: new InputDecoration(
+              filled: true,
+              //fillColor: Colors.grey[300],
+              hintText: 'Date Of Birth',
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        FlatButton(
+          onPressed: () {
+            _sign_up();
+          },
+          child: new Container(
+            margin: EdgeInsets.only(left: 0, right: 0),
+            width: MediaQuery.of(context).size.width,
+            height: 40,
+            decoration: BoxDecoration(color: Colors.orange),
+            child: Center(
+              child: Text(
+                "Sign Up",
+                style: TextStyle(
+                    color: Color(0xffFDEBE3), fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+        Row(
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+
+          children: <Widget>[
+            new Checkbox(
+              value: _check_value,
+              onChanged: _value1Changed,
+              activeColor: Colors.orange,
+            ),
+            Text(
+              "Terms and conditions",
+              style: TextStyle(color: Colors.black38, fontSize: 15),
+            ),
+          ],
+        )
+      ],
+    ));
   }
 
   AppBar _appBar() {
@@ -239,7 +292,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
     );
   }
 
-  void _current_country() async {
+/*  void _current_country() async {
     await FlutterSimCountryCode.simCountryCode.then((v) {
       print(v);
 
@@ -253,34 +306,11 @@ class _RegsiationPageState extends State<RegsiationPage> {
           break;
       }
     });
-  }
+  }*/
 
   void _back() {
     Navigator.of(context).pop();
   }
-
-  /*
-  *   if (_name_controller.value.text.isEmpty &&
-          _surName_controller.value.text.isEmpty &&
-          _email_controller.value.text.isEmpty &&
-          _phone_controller.value.text.isEmpty &&
-          _date_of_birth_controller.value.text.isEmpty) {
-        _scaffoldKey.currentState.showSnackBar(new SnackBar(
-            content: new Text(
-          'Empty Fields !',
-          style: TextStyle(color: Colors.red),
-        )));
-      } else {
-        //_sendCodeToPhoneNumber();
-
-        setState(() {
-          loading = true;
-        });
-
-        verifyPhone();
-      }
-  *
-  * */
 
   void _sign_up() {
     if (_check_value) {
@@ -293,6 +323,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
             _email_controller.value.text.isEmpty &&
             _phone_controller.value.text.isEmpty &&
             _date_of_birth_controller.value.text.isEmpty) {
+
           _scaffoldKey.currentState.showSnackBar(new SnackBar(
               content: new Text(
             'Empty Fields !',
@@ -308,18 +339,18 @@ class _RegsiationPageState extends State<RegsiationPage> {
           verifyPhone();
         }
       } else {
-        new SnackBar(
+           _scaffoldKey.currentState.showSnackBar(new SnackBar(
             content: new Text(
-          'Password is not formated',
-          style: TextStyle(color: Colors.red),
-        ));
+              'Password is not matched  !',
+              style: TextStyle(color: Colors.red),
+            )));
       }
     } else {
-      new SnackBar(
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
           content: new Text(
-        'Please check Terms and conditions',
-        style: TextStyle(color: Colors.red),
-      ));
+            'Please checked the trams and condition',
+            style: TextStyle(color: Colors.red),
+          )));
     }
   }
 
@@ -365,7 +396,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
                         email: _email_controller.text,
                         surname: _surName_controller.text,
                         phoneNumber: _phone_controller.text,
-                    password: _password_controller.value.text,
+                        password: _password_controller.value.text,
                       )));
             }
           },
@@ -388,18 +419,23 @@ class _RegsiationPageState extends State<RegsiationPage> {
   }
 
   Loading() {
-
-    return  loading
+    return loading
         ? Align(
-      alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 100.0),
-        child: SpinKitCircle(
-          color: Colors.orange,
-          size: 60,
-        ),
-      ),
-    )
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 100.0),
+              child: SpinKitCircle(
+                color: Colors.orange,
+                size: 60,
+              ),
+            ),
+          )
         : Container();
+  }
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 }

@@ -581,17 +581,18 @@ class _MapActivityState extends State<MapActivity> {
   }
 
   menuButton() {
-    return InkWell(
-      onTap: () {
-        if (_key.currentState.isDrawerOpen) {
-          _key.currentState.openEndDrawer();
-        } else {
-          _key.currentState.openDrawer();
-        }
-      },
-      child: Positioned(
-        top: 15,
-        left: 15,
+    return Positioned(
+      top: 15,
+       left: 15,
+
+      child: InkWell(
+        onTap: () {
+          if (_key.currentState.isDrawerOpen) {
+            _key.currentState.openEndDrawer();
+          } else {
+            _key.currentState.openDrawer();
+          }
+        },
         child: Icon(
           Icons.menu,
           color: Colors.orange,
@@ -619,8 +620,6 @@ class _MapActivityState extends State<MapActivity> {
           print("Valueeeeeeeeeeeeeee    ${value}");
 
           if (value["userNumber"] == widget.number) {
-            print("${TAG}     ========================");
-
             activeService = new ActiveService(
                 serviceManLan: value["serviceManLan"],
                 serviceManLat: value["serviceManLat"],

@@ -12,8 +12,15 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+        maven {
+            url "https://maven.google.com"
+        }
+        maven {
+            url "https://jitpack.io"
+        }
         jcenter()
+        google()
+
     }
 }
 
@@ -28,3 +35,7 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+/*dependencies {
+    implementation 'com.google.firebase:firebase-messaging:20.1.5'
+}*/

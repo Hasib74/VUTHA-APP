@@ -15,23 +15,14 @@ class Otp_Code extends StatefulWidget {
   final phoneNumber;
   final password;
 
-  /*
-  *   var _name_controller = TextEditingController();
-  var _surName_controller = TextEditingController();
-  var _email_controller = TextEditingController();
-  var _date_of_birth_controller = TextEditingController();
-  var _phone_controller = TextEditingController();
-
-  *
-  * */
-
   Otp_Code(
       {this.otp_id,
       this.name,
       this.phoneNumber,
       this.email,
       this.dateOfBirth,
-      this.surname,this.password});
+      this.surname,
+      this.password});
 
   @override
   _Otp_CodeState createState() => _Otp_CodeState();
@@ -40,7 +31,7 @@ class Otp_Code extends StatefulWidget {
 class _Otp_CodeState extends State<Otp_Code> {
   var _otp_code_contoller = TextEditingController();
 
- // FirebaseAuth _auth;
+  // FirebaseAuth _auth;
   bool loading = false;
 
   @override
@@ -111,8 +102,7 @@ class _Otp_CodeState extends State<Otp_Code> {
                                           widget.name + " " + widget.surname,
                                       "Email": widget.email,
                                       "DOF": widget.dateOfBirth,
-                                      "Password":widget.password
-
+                                      "Password": widget.password
                                     }).then((value) =>
                                             _navigateToOtherActivity(v));
                                   } else {
@@ -161,9 +151,14 @@ class _Otp_CodeState extends State<Otp_Code> {
   _navigateToOtherActivity(number) {
     Functions.fun_addLogInInfoToSharePrefarance(number).then((value) {
       print(value);
-    });
 
-    Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => MapActivity(number: number)));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => MapActivity(
+                    number: number,
+                  )),
+          (Route<dynamic> route) => false);
+    });
   }
 
   Future<String> _testSignInWithPhoneNumber() async {
