@@ -223,6 +223,8 @@ class _LogInPageState extends State<LogIn> {
       if (value.value != null) {
         if (value.value["Password"] == _password_controller.value.text) {
           Functions.fun_addLogInInfoToSharePrefarance(number).then((value) {
+            Common.user_number = number;
+
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (context) => MapActivity(

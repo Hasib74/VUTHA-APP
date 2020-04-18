@@ -14,7 +14,9 @@ void main() {
       print("Value  ${value} ");
 
       runApp(MaterialApp(
-        home: MapActivity(number: value,),
+        home: MapActivity(
+          number: value,
+        ),
       ));
     } else {
       runApp(MaterialApp(
