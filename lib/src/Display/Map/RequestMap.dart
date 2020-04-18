@@ -42,15 +42,20 @@ class _RequestMapState extends State<RequestMap> {
 
   User user;
 
+  LatLng requestLocation;
+
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
 
     // User user;
 
     _loadUser();
     _chnageUpdate_location();
+
+    checkRequestedBefor();
+
+    super.initState();
   }
 
   void _loadUser() {
@@ -72,7 +77,7 @@ class _RequestMapState extends State<RequestMap> {
     return Stack(
       children: <Widget>[
         _buildGoogleMap(context),
-         var_check_for_help == false ? _build_topics() : _requesting_for_help(),
+        var_check_for_help == false ? _build_topics() : _requesting_for_help(),
       ],
     );
   }
@@ -334,6 +339,8 @@ class _RequestMapState extends State<RequestMap> {
                                 child: InkWell(
                                   onTap: () {
                                     setState(() {
+                                      var_check_for_help = false;
+
                                       isHelp = false;
                                     });
 
@@ -486,5 +493,27 @@ class _RequestMapState extends State<RequestMap> {
         .remove()
         .then((value) => print("remove"))
         .catchError((err) => print("Error  ${err}"));
+  }
+
+  void checkRequestedBefor() {
+    FirebaseDatabase.instance
+        .reference()
+        .child(Common.help_request)
+        .child(Common.user_number)
+        .once()
+        .then((value) {
+      if (value.value != null) {
+        setState(() {
+          var_check_for_help = true;
+
+          help_type = value.value["request_type"];
+
+          isHelp = true;
+
+          requestLocation = new LatLng(
+              value.value["location"]["lat"], value.value["location"]["lan"]);
+        });
+      }
+    });
   }
 }
