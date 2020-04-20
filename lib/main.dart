@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vutha_app/src/Display/Map/MapActivity.dart';
-import 'package:vutha_app/src/LogInAndRegistation/Display.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
+import 'package:vutha_app/src/View/LogInAndRegistation/InitialPage.dart';
+import 'package:vutha_app/src/View/Map/MapActivity.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ void main() {
       ));
     } else {
       runApp(MaterialApp(
-        home: Display(),
+        home: InitialPage(),
       ));
     }
   });

@@ -2,6 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:vutha_app/src/Model/ChatModel.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
+import 'package:vutha_app/src/Controller/ChatController/ChatController.dart'
+    as controller;
 
 class Chat extends StatefulWidget {
   var number;
@@ -162,7 +164,8 @@ class _ChatState extends State<Chat> {
               )),
               text != null
                   ? InkWell(
-                      onTap: () => send_message(),
+                      onTap: () => controller.send_message(
+                          chat_edit_text_controller, widget.number),
                       child: Icon(
                         Icons.send,
                         color: Colors.orange,
@@ -183,51 +186,5 @@ class _ChatState extends State<Chat> {
         ),
       ),
     );
-  }
-
-  send_message() {
-    var message;
-
-    if (chat_edit_text_controller.value.text.isNotEmpty) {
-      message = chat_edit_text_controller.value.text;
-
-      chat_edit_text_controller.text = "";
-      FirebaseDatabase.instance
-          .reference()
-          .child(Common.Chat)
-          .child(widget.number)
-          .once()
-          .then((value) {
-        if (value.value == null) {
-          FirebaseDatabase.instance
-              .reference()
-              .child(Common.Chat)
-              .child(widget.number)
-              .child("1")
-              .set({
-            "message": message,
-            "type": "user",
-            "time": new DateTime.now()
-                .toIso8601String()
-                .replaceAll(":", ".")
-                .replaceAll("-", "."),
-          });
-        } else {
-          FirebaseDatabase.instance
-              .reference()
-              .child(Common.Chat)
-              .child(widget.number)
-              .child("${value.value.length + 1}")
-              .set({
-            "message": message,
-            "type": "user",
-            "time": new DateTime.now()
-                .toIso8601String()
-                .replaceAll(":", ".")
-                .replaceAll("-", "."),
-          });
-        }
-      });
-    }
   }
 }

@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:vutha_app/src/Display/Map/MapActivity.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
+
+import 'package:vutha_app/src/Controller/LogInAndRegistation/RegistationController.dart'
+    as controller;
 
 class Otp_Code extends StatefulWidget {
   final otp_id;
@@ -89,32 +91,17 @@ class _Otp_CodeState extends State<Otp_Code> {
                                   loading = true;
                                 });
 
-                                _testSignInWithPhoneNumber().then((v) {
-                                  print(v);
-
-                                  if (v != "error") {
-                                    FirebaseDatabase.instance
-                                        .reference()
-                                        .child(Common.USER)
-                                        .child(v)
-                                        .set({
-                                      "Name":
-                                          widget.name + " " + widget.surname,
-                                      "Email": widget.email,
-                                      "DOF": widget.dateOfBirth,
-                                      "Password": widget.password
-                                    }).then((value) =>
-                                            _navigateToOtherActivity(v));
-                                  } else {
-                                    Navigator.of(context).pop();
-                                  }
-                                }).catchError((e) {
-                                  print(e);
-
-                                  setState(() {
-                                    loading = false;
-                                  });
-                                });
+                                controller.OTPsignUp(
+                                    widget.name,
+                                    widget.surname,
+                                    widget.email,
+                                    widget.dateOfBirth,
+                                    widget.password,
+                                    widget.otp_id,
+                                    _otp_code_contoller,
+                                    context,
+                                    startLoading,
+                                    stopLoading);
                               },
                               color: Colors.orange,
                               child: Text(
@@ -148,53 +135,15 @@ class _Otp_CodeState extends State<Otp_Code> {
     );
   }
 
-  _navigateToOtherActivity(number) {
-    Functions.fun_addLogInInfoToSharePrefarance(number).then((value) {
-      print(value);
-
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => MapActivity(
-                    number: number,
-                  )),
-          (Route<dynamic> route) => false);
+  startLoading() {
+    setState(() {
+      loading = true;
     });
   }
 
-  Future<String> _testSignInWithPhoneNumber() async {
-    String status;
-
-    AuthCredential credential = PhoneAuthProvider.getCredential(
-      verificationId: widget.otp_id,
-      smsCode: _otp_code_contoller.value.text,
-    );
-    await FirebaseAuth.instance.signInWithCredential(credential).then((v) {
-      print(
-          "..............................................  ${v.user.phoneNumber} ");
-
-      if (v.user.phoneNumber != null) {
-        status = v.user.phoneNumber;
-
-        print("Sattus  ${status}");
-      } else {
-        status = "error";
-
-        Navigator.of(context).pop();
-
-        setState(() {
-          loading = false;
-        });
-      }
-    }).catchError((err) {
-      print(err);
-      status = "error";
-
-      setState(() {
-        loading = false;
-      });
+  stopLoading() {
+    setState(() {
+      loading = false;
     });
-
-    _otp_code_contoller.text = '';
-    return status;
   }
 }

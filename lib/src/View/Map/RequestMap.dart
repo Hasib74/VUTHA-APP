@@ -6,8 +6,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vutha_app/src/Model/NotificationData.dart';
 import 'package:vutha_app/src/Model/User.dart';
-import 'package:vutha_app/src/Notification/NotificationService.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
+
+import 'package:vutha_app/src/Controller/MapController/RequestManController.dart'
+    as controller;
 
 class RequestMap extends StatefulWidget {
   @override
@@ -50,25 +52,35 @@ class _RequestMapState extends State<RequestMap> {
 
     // User user;
 
-    _loadUser();
-    _chnageUpdate_location();
+    controller.loadUser().then((value) => user = value);
+    /*_chnageUpdate_location();*/
 
-    checkRequestedBefor();
+    controller.chnageUpdate_location(_controller, changePosition);
+
+    controller.checkRequestedBefor(chnageUi);
+
+    //checkRequestedBefor();
 
     super.initState();
   }
 
-  void _loadUser() {
-    FirebaseDatabase.instance
-        .reference()
-        .child(Common.USER)
-        .child(Common.user_number)
-        .once()
-        .then((value) {
-      user = User(
-          name: value.value["Name"],
-          email: value.value["Email"],
-          number: Common.user_number);
+  changePosition() {
+    setState(() {
+      lan = controller.lat;
+
+      lat = controller.lan;
+    });
+  }
+
+  chnageUi() {
+    setState(() {
+      var_check_for_help = controller.var_check_for_help;
+
+      help_type = controller.help_type;
+
+      isHelp = controller.isHelp;
+
+      requestLocation = controller.requestLocation;
     });
   }
 
@@ -79,6 +91,24 @@ class _RequestMapState extends State<RequestMap> {
         _buildGoogleMap(context),
         var_check_for_help == false ? _build_topics() : _requesting_for_help(),
       ],
+    );
+  }
+
+  Widget _buildGoogleMap(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: GoogleMap(
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        markers: _markers,
+        mapType: MapType.normal,
+        initialCameraPosition:
+            CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 14),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),
     );
   }
 
@@ -305,7 +335,8 @@ class _RequestMapState extends State<RequestMap> {
                                       isHelp = true;
                                     });
 
-                                    _firebase_request_for_help();
+                                    controller.firebase_request_for_help(
+                                        user.name, help_type);
                                   },
                                   child: Container(
                                     height: 50,
@@ -344,7 +375,7 @@ class _RequestMapState extends State<RequestMap> {
                                       isHelp = false;
                                     });
 
-                                    _firebase_cancel_request();
+                                    controller.firebase_cancel_request();
                                   },
                                   child: Container(
                                     height: 50,
@@ -394,126 +425,5 @@ class _RequestMapState extends State<RequestMap> {
         ),
       ),
     );
-  }
-
-  Widget _buildGoogleMap(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: GoogleMap(
-        myLocationEnabled: true,
-        myLocationButtonEnabled: true,
-        markers: _markers,
-        mapType: MapType.normal,
-        initialCameraPosition:
-            CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 14),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
-    );
-  }
-
-  void _chnageUpdate_location() async {
-    var geolocator = Geolocator();
-    var locationOptions =
-        LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-
-    final GoogleMapController controller = await _controller.future;
-
-    geolocator.getPositionStream(locationOptions).listen((Position position) {
-      print(position == null
-          ? 'Unknown'
-          : position.latitude.toString() +
-              ', ' +
-              position.longitude.toString());
-
-      print(
-          "Chnaging location  +  ${position.longitude} + ${position.latitude} ");
-
-      setState(() {
-        lan = position.longitude;
-
-        lat = position.latitude;
-      });
-
-      controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(position.latitude, position.longitude), zoom: 14)));
-    });
-  }
-
-  void _firebase_request_for_help() {
-    print("Phone number  ${Common.user_number}");
-
-    FirebaseDatabase.instance
-        .reference()
-        .child(Common.help_request)
-        .child(Common.user_number)
-        .set({
-      "request_type": help_type,
-      "location": {
-        "lat": lat,
-        "lan": lan,
-      }
-    }).then((value) {
-      //status = "requesting";
-
-      sendNotification();
-    }).catchError((err) {
-      print("Error  ${err}");
-    });
-  }
-
-  void sendNotification() {
-    //print("User Name   ${user.name}");
-
-    FirebaseDatabase.instance
-        .reference()
-        .child(Common.TOKEN)
-        .child(Common.ADMIN)
-        .once()
-        .then((value) {
-      NotificationData notificationData = new NotificationData(
-          data: Data(
-              text: "Good",
-              body: "${user.name} is requested for ${help_type}",
-              title: "New Request",
-              click_action: "newRequest"),
-          to: value.value["token"]);
-
-      NotificationService().sendRequest(notificationData);
-    });
-  }
-
-  void _firebase_cancel_request() {
-    FirebaseDatabase.instance
-        .reference()
-        .child(Common.help_request)
-        .child(Common.user_number)
-        .remove()
-        .then((value) => print("remove"))
-        .catchError((err) => print("Error  ${err}"));
-  }
-
-  void checkRequestedBefor() {
-    FirebaseDatabase.instance
-        .reference()
-        .child(Common.help_request)
-        .child(Common.user_number)
-        .once()
-        .then((value) {
-      if (value.value != null) {
-        setState(() {
-          var_check_for_help = true;
-
-          help_type = value.value["request_type"];
-
-          isHelp = true;
-
-          requestLocation = new LatLng(
-              value.value["location"]["lat"], value.value["location"]["lan"]);
-        });
-      }
-    });
   }
 }

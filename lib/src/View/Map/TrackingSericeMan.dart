@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:vutha_app/src/ApiService/MapApisIntregation.dart';
+import 'package:vutha_app/src/Controller/MapController/TrackingServiceManController.dart'
+    as controller;
 import 'package:vutha_app/src/Model/ActiveService.dart';
 
 class TrackingServiceMan extends StatefulWidget {
@@ -26,9 +27,17 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
     // TODO: implement initState
     super.initState();
 
-    _addMarker();
+    controller.addMarker(_markers, widget.activeService);
 
-    _getDistanceAndDuration();
+    controller.getDistanceAndDuration(
+        widget.activeService, changeDistanceAndDuration);
+  }
+
+  changeDistanceAndDuration() {
+    setState(() {
+      this.distance = controller.distance;
+      this.duration = controller.duration;
+    });
   }
 
   @override
@@ -50,6 +59,7 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
+
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
         markers: _markers,
@@ -70,20 +80,12 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-
           width: MediaQuery.of(context).size.width / 1.1,
           height: 200,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.6),
-            boxShadow: [
-
-
-              BoxShadow(color: Colors.black12,spreadRadius: 1,blurRadius: 1),
-
-            ]
-
-          ),
-
+          decoration:
+              BoxDecoration(color: Colors.white.withOpacity(0.6), boxShadow: [
+            BoxShadow(color: Colors.black12, spreadRadius: 1, blurRadius: 1),
+          ]),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -114,9 +116,8 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Container(
-                        width: MediaQuery.of(context).size.width/1.2,
+                        width: MediaQuery.of(context).size.width / 1.2,
                         height: 40,
-
                         decoration: BoxDecoration(
                           color: Colors.orange.withOpacity(1.0),
                         ),
@@ -132,13 +133,6 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
                         ),
                       ),
                     ),
-                  /*  Expanded(
-                        flex: 1,
-                        child: Icon(
-                          Icons.mode_comment,
-                          color: Colors.black,
-                          size: 20,
-                        ))*/
                   ],
                 )
               ],
@@ -147,35 +141,6 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
         ),
       ),
     );
-  }
-
-  void _addMarker() {
-    _markers.add(Marker(
-        markerId: MarkerId("userMarker"),
-        infoWindow: InfoWindow(title: "You"),
-        position: new LatLng(
-            widget.activeService.userlat, widget.activeService.userLan),
-        icon: BitmapDescriptor.defaultMarkerWithHue(17)));
-    _markers.add(Marker(
-        markerId: MarkerId("userMarker"),
-        infoWindow: InfoWindow(title: "Service Man"),
-        position: new LatLng(widget.activeService.serviceManLat,
-            widget.activeService.serviceManLan),
-        icon: BitmapDescriptor.defaultMarkerWithHue(10)));
-  }
-
-  void _getDistanceAndDuration() {
-    GoogleMapsServices()
-        .getDistance(
-            LatLng(widget.activeService.userlat, widget.activeService.userLan),
-            LatLng(widget.activeService.serviceManLat,
-                widget.activeService.serviceManLan))
-        .then((value) {
-      setState(() {
-        distance = value[0]["distance"]["text"];
-        duration = value[0]["duration"]["text"];
-      });
-    });
   }
 
   void _moveCamera() async {

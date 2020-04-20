@@ -1,8 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:vutha_app/src/Display/Chat/Chat.dart';
-import 'package:vutha_app/src/LogInAndRegistation/Display.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
+import 'package:vutha_app/src/View/Chat/Chat.dart';
+import 'package:vutha_app/src/View/LogInAndRegistation/InitialPage.dart';
+import 'package:vutha_app/src/Route/Routs.dart' as routes;
 //import 'Chat';
 
 class NavigationDrawer extends StatelessWidget {
@@ -31,14 +32,22 @@ class NavigationDrawer extends StatelessWidget {
             children: <Widget>[
               ListTile(
                 onTap: () {
-                  Navigator.of(context)
+                  /* Navigator.of(context)
                       .push(new MaterialPageRoute(
                           builder: (context) => Chat(
                                 number: number,
                               )))
                       .then((value) {
                     closeDrawer();
-                  });
+                  });*/
+
+                  closeDrawer();
+
+                  routes.normalRoute(
+                      context,
+                      Chat(
+                        number: number,
+                      ));
                 },
                 leading: Icon(
                   Icons.chat,
@@ -93,6 +102,7 @@ class NavigationDrawer extends StatelessWidget {
 
   void removeLogInInfo(BuildContext context) async {
     Functions.logOut();
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Display()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => InitialPage()));
   }
 }

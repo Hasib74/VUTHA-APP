@@ -6,7 +6,10 @@ import 'dart:ui' as ui;
 import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:vutha_app/src/LogInAndRegistation/Otp_Code.dart';
+import 'package:vutha_app/src/Route/Routs.dart' as routes;
+import 'package:vutha_app/src/Controller/LogInAndRegistation/RegistationController.dart'
+    as controller;
+import 'package:vutha_app/src/View/LogInAndRegistation/Otp_Code.dart';
 
 class RegsiationPage extends StatefulWidget {
   @override
@@ -138,11 +141,9 @@ class _RegsiationPageState extends State<RegsiationPage> {
             keyboardType: TextInputType.number,
             controller: _phone_controller,
             textInputAction: TextInputAction.next,
-
             onSubmitted: (a) {
               _fieldFocusChange(context, _phoeNumber_node, _email_node);
             },
-
             decoration: new InputDecoration(
               filled: true,
               //fillColor: Colors.grey[300],
@@ -170,11 +171,9 @@ class _RegsiationPageState extends State<RegsiationPage> {
             focusNode: _email_node,
             controller: _email_controller,
             textInputAction: TextInputAction.next,
-
             onSubmitted: (a) {
               _fieldFocusChange(context, _email_node, _password_node);
             },
-
             decoration: new InputDecoration(
               filled: true,
               //fillColor: Colors.grey[300],
@@ -207,9 +206,9 @@ class _RegsiationPageState extends State<RegsiationPage> {
             obscureText: true,
             controller: _confirm_password_controller,
             textInputAction: TextInputAction.next,
-
             onSubmitted: (a) {
-              _fieldFocusChange(context, _confirmPassword_node, _dateOfBirth_node);
+              _fieldFocusChange(
+                  context, _confirmPassword_node, _dateOfBirth_node);
             },
             decoration: new InputDecoration(
               filled: true,
@@ -224,8 +223,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
           child: TextField(
             controller: _date_of_birth_controller,
 
-
-           /* onSubmitted: (a) {
+            /* onSubmitted: (a) {
               _fieldFocusChange(context, _phoeNumber_node, _email_node);
             },*/
             decoration: new InputDecoration(
@@ -241,7 +239,22 @@ class _RegsiationPageState extends State<RegsiationPage> {
         ),
         FlatButton(
           onPressed: () {
-            _sign_up();
+            controller.sign_up(
+                _check_value,
+                _password_controller,
+                _confirm_password_controller,
+                _name_controller,
+                _surName_controller,
+                _email_controller,
+                _phone_controller,
+                _date_of_birth_controller,
+                _scaffoldKey,
+                startLoading(),
+                stopLoading(),
+                context,
+                country_code);
+
+            // sign_up();
           },
           child: new Container(
             margin: EdgeInsets.only(left: 0, right: 0),
@@ -283,13 +296,25 @@ class _RegsiationPageState extends State<RegsiationPage> {
       elevation: 0.0,
       leading: InkWell(
           onTap: () {
-            _back();
+            routes.back(context);
           },
           child: new Icon(
             Icons.arrow_back,
             color: Colors.black,
           )),
     );
+  }
+
+  startLoading() {
+    setState(() {
+      loading = true;
+    });
+  }
+
+  stopLoading() {
+    setState(() {
+      loading = false;
+    });
   }
 
 /*  void _current_country() async {
@@ -307,116 +332,6 @@ class _RegsiationPageState extends State<RegsiationPage> {
       }
     });
   }*/
-
-  void _back() {
-    Navigator.of(context).pop();
-  }
-
-  void _sign_up() {
-    if (_check_value) {
-      if (_password_controller.value.text != null &&
-          _password_controller.value.text ==
-              _confirm_password_controller.value.text &&
-          _password_controller.value.text.length > 5) {
-        if (_name_controller.value.text.isEmpty &&
-            _surName_controller.value.text.isEmpty &&
-            _email_controller.value.text.isEmpty &&
-            _phone_controller.value.text.isEmpty &&
-            _date_of_birth_controller.value.text.isEmpty) {
-
-          _scaffoldKey.currentState.showSnackBar(new SnackBar(
-              content: new Text(
-            'Empty Fields !',
-            style: TextStyle(color: Colors.red),
-          )));
-        } else {
-          //_sendCodeToPhoneNumber();
-
-          setState(() {
-            loading = true;
-          });
-
-          verifyPhone();
-        }
-      } else {
-           _scaffoldKey.currentState.showSnackBar(new SnackBar(
-            content: new Text(
-              'Password is not matched  !',
-              style: TextStyle(color: Colors.red),
-            )));
-      }
-    } else {
-      _scaffoldKey.currentState.showSnackBar(new SnackBar(
-          content: new Text(
-            'Please checked the trams and condition',
-            style: TextStyle(color: Colors.red),
-          )));
-    }
-  }
-
-  Future<void> verifyPhone() async {
-    // print("Number code" + _current_country_code);
-
-    final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
-      if (verId != null) {
-        print("AAAAAA $verId");
-
-        setState(() {
-          loading = false;
-        });
-
-        Navigator.of(context).push(new MaterialPageRoute(
-            builder: (context) => Otp_Code(
-                  otp_id: verId,
-                  name: _name_controller.text,
-                  email: _email_controller.text,
-                  surname: _surName_controller.text,
-                  phoneNumber: _phone_controller.text,
-                )));
-      }
-    };
-    try {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-          phoneNumber: country_code + _phone_controller.value.text,
-          // PHONE NUMBER TO SEND OTP
-          codeAutoRetrievalTimeout: (String verId) {
-            //Starts the phone number verification process for the given phone number.
-            //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
-            if (verId != null) {
-              print("BBBBB $verId");
-
-              setState(() {
-                loading = false;
-              });
-
-              Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (context) => Otp_Code(
-                        otp_id: verId,
-                        name: _name_controller.text,
-                        email: _email_controller.text,
-                        surname: _surName_controller.text,
-                        phoneNumber: _phone_controller.text,
-                        password: _password_controller.value.text,
-                      )));
-            }
-          },
-          codeSent: smsOTPSent,
-          // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
-          timeout: const Duration(seconds: 20),
-          verificationCompleted: (AuthCredential phoneAuthCredential) {
-            print(phoneAuthCredential);
-          },
-          verificationFailed: (AuthException exceptio) {
-            print('${exceptio.message}');
-          });
-    } catch (e) {
-      print("Errorrrrr  $e");
-
-      setState(() {
-        loading = false;
-      });
-    }
-  }
 
   Loading() {
     return loading

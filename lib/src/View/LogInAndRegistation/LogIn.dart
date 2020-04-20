@@ -6,8 +6,9 @@ import 'dart:ui' as ui;
 import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:vutha_app/src/Display/Map/MapActivity.dart';
-import 'package:vutha_app/src/LogInAndRegistation/Otp_Code.dart';
+import 'package:vutha_app/src/Controller/LogInAndRegistation/LogInController.dart'
+    as controller;
+import 'package:vutha_app/src/Route/Routs.dart' as routes;
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 
@@ -43,10 +44,6 @@ class _LogInPageState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    //Locale myLocale = Localizations.localeOf(context);
-
-    // print("Codeeeeeeeeeeeeeeee   ${country_code}");
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -128,7 +125,23 @@ class _LogInPageState extends State<LogIn> {
         ),
         FlatButton(
           onPressed: () {
-            _logIn();
+            /* setState(() {
+              loading = true;
+            });
+            */
+
+            //_number_controller,_password_controller,_scaffoldKey , context
+
+            if (controller.logIn(_number_controller, _password_controller,
+                _scaffoldKey, context)) {
+              setState(() {
+                loading = true;
+              });
+            } else {
+              setState(() {
+                loading = false;
+              });
+            }
           },
           child: new Container(
             margin: EdgeInsets.only(left: 0, right: 0),
@@ -180,69 +193,12 @@ class _LogInPageState extends State<LogIn> {
       elevation: 0.0,
       leading: InkWell(
           onTap: () {
-            _back();
+            routes.back(context);
           },
           child: new Icon(
             Icons.arrow_back,
             color: Colors.black,
           )),
     );
-  }
-
-  void _back() {
-    Navigator.of(context).pop();
-  }
-
-  void _logIn() {
-    if (_number_controller.value.text.isEmpty &&
-        _password_controller.value.text.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(new SnackBar(
-          content: new Text(
-        'Empty Fields !',
-        style: TextStyle(color: Colors.red),
-      )));
-    } else {
-      //_sendCodeToPhoneNumber();
-
-      _logInWithNumberAndPassword("+27" + _number_controller.value.text,
-          _password_controller.value.text);
-
-      setState(() {
-        loading = true;
-      });
-    }
-  }
-
-  void _logInWithNumberAndPassword(String number, String paswweor) {
-    FirebaseDatabase.instance
-        .reference()
-        .child(Common.USER)
-        .child(number)
-        .once()
-        .then((value) {
-      if (value.value != null) {
-        if (value.value["Password"] == _password_controller.value.text) {
-          Functions.fun_addLogInInfoToSharePrefarance(number).then((value) {
-            Common.user_number = number;
-
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (context) => MapActivity(
-                          number: number,
-                        )),
-                (Route<dynamic> route) => false);
-          });
-        } else {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text("Alert"),
-                  content: Text("You arre not registared"),
-                );
-              });
-        }
-      }
-    });
   }
 }

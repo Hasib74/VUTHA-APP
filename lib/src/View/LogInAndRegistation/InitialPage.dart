@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:vutha_app/src/LogInAndRegistation/LogIn.dart';
-import 'package:vutha_app/src/LogInAndRegistation/Registation.dart';
+import 'package:vutha_app/src/View/LogInAndRegistation/LogIn.dart';
+import 'package:vutha_app/src/View/LogInAndRegistation/Registation.dart';
+import 'package:vutha_app/src/Route/Routs.dart' as Routes;
 
-class Display extends StatefulWidget {
+class InitialPage extends StatefulWidget {
   @override
-  _DisplayState createState() => _DisplayState();
+  _InitialPageState createState() => _InitialPageState();
 }
 
-class _DisplayState extends State<Display> {
+class _InitialPageState extends State<InitialPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -72,15 +73,11 @@ class _DisplayState extends State<Display> {
                         Expanded(
                           flex: 1,
                           child: InkWell(
+                            onTap: () {
+                              //  Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> LogIn()));
 
-                            onTap: (){
-
-
-                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> LogIn()));
-
-
+                              Routes.normalRoute(context, LogIn());
                             },
-
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
@@ -105,10 +102,8 @@ class _DisplayState extends State<Display> {
                           flex: 1,
                           child: InkWell(
                             onTap: () {
-
-
-                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>new RegsiationPage()));
-
+                              //  Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>new RegsiationPage()));
+                              Routes.normalRoute(context, RegsiationPage());
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
