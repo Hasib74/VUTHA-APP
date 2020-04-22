@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 import 'package:vutha_app/src/View/Chat/Chat.dart';
+import 'package:vutha_app/src/View/History/History.dart';
 import 'package:vutha_app/src/View/LogInAndRegistation/InitialPage.dart';
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
 //import 'Chat';
@@ -61,6 +62,27 @@ class NavigationDrawer extends StatelessWidget {
                       fontSize: 17),
                 ),
               ),
+
+
+              ListTile(
+                onTap: () {
+
+                  closeDrawer();
+                  routes.normalRoute(context, HistoryPage());
+                },
+                leading: Icon(
+                  Icons.history,
+                  color: Colors.orange,
+                ),
+                title: Text(
+                  "Histoty",
+                  style: TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17),
+                ),
+              ),
+
               ListTile(
                 onTap: () {
                   removeLogInInfo(context);

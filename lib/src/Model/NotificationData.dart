@@ -7,35 +7,24 @@ class NotificationData {
 
   NotificationData({this.data, this.priority, this.to});
 
-
-  Map<String, dynamic> toJson() =>
-      {
-        'to': to,
-        'priority': "high",
-        'data': {
-
-          "click_action": data.click_action,
-
-          "title" : data.title,
-
-          "body": data.body,
-          "text" :data.text
-
-        } ,
-        //'improvement': _improvement,
-      };
-
-
+  Map<String, dynamic> toJson() => {
+    'to': to,
+    'priority': "high",
+    'data': {
+      "click_action": data.click_action,
+      "title": data.title,
+      "body": data.body,
+      "type": data.type
+    },
+    //'improvement': _improvement,
+  };
 }
-
-
-
 
 class Data {
   var click_action;
   var title;
   var body;
-  var text;
+  var type;
 
-  Data({this.text, this.body, this.title, this.click_action});
+  Data({this.type, this.body, this.title, this.click_action});
 }

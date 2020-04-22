@@ -5,8 +5,9 @@ class ActiveService {
   var serviceManNumber;
   var userlat;
   var userLan;
+  var id;
 
 
-  ActiveService({this.serviceManLan,this.serviceManLat,this.userLan,this.userlat,this.serviceManNumber});
+  ActiveService({this.serviceManLan,this.serviceManLat,this.userLan,this.userlat,this.serviceManNumber,this.id});
 
 }

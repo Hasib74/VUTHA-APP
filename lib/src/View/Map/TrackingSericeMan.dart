@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vutha_app/src/Controller/MapController/TrackingServiceManController.dart'
@@ -16,11 +17,14 @@ class TrackingServiceMan extends StatefulWidget {
 }
 
 class _TrackingServiceManState extends State<TrackingServiceMan> {
+  var comments_controller = TextEditingController();
   Completer<GoogleMapController> _controller = new Completer();
   final Set<Marker> _markers = {};
 
   var distance;
   var duration;
+
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -49,6 +53,14 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
           // activeService(),
 
           activeCard(),
+
+          isLoading
+              ? Positioned.fill(
+                  child: Align(
+                  alignment: Alignment.center,
+                  child: CupertinoActivityIndicator(),
+                ))
+              : Container(),
         ],
       ),
     );
@@ -59,7 +71,6 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
-
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
         markers: _markers,
@@ -109,26 +120,60 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
                   padding: EdgeInsets.all(8),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(1.0),
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                        onTap: () {
+                          _showDialog(context, "confirm");
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 5),
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.green.withOpacity(1.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Confirm",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
                         ),
-                        child: Center(
-                          child: Text(
-                            "Confirm",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                        onTap: () {
+                          _showDialog(context, "cancle");
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10, left: 5),
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.red.withOpacity(1.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Cancle",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -150,5 +195,73 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
         target:
             LatLng(widget.activeService.userlat, widget.activeService.userLan),
         zoom: 14)));
+  }
+
+  _showDialog(context, type) async {
+    await showDialog<String>(
+      context: context,
+      child: new CupertinoAlertDialog(
+        content: Text(
+          type == "confirm" ? "You want to confirm ?" : " You want to cancle ?",
+          style: TextStyle(
+              color: Colors.black87, fontSize: 17, fontWeight: FontWeight.w500),
+        ),
+        actions: <Widget>[
+          new FlatButton(
+              child: const Text(
+                'No',
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                //////////////////////
+
+                Navigator.pop(context);
+
+              }),
+          new FlatButton(
+              child: const Text(
+                'YES',
+                style: TextStyle(color: Colors.green),
+              ),
+              onPressed: () {
+                //////////////////////
+
+                type == "confirm" ? confirmAction() : cancleAction();
+              })
+        ],
+      ),
+    );
+  }
+
+  confirmAction() {
+    setState(() {
+      isLoading = true;
+    });
+
+    controller.confirm(widget.activeService).then((value) {
+      if (value) {
+        setState(() {
+          isLoading = false;
+        });
+
+        Navigator.pop(context);
+      }
+    });
+  }
+
+  cancleAction() {
+    setState(() {
+      isLoading = true;
+    });
+
+    controller.cancle(widget.activeService).then((value) {
+      if (value) {
+        setState(() {
+          isLoading = false;
+        });
+
+        Navigator.pop(context);
+      }
+    });
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vutha_app/src/Controller/MapController/RequestManController.dart';
 
 import 'package:vutha_app/src/Model/ActiveService.dart';
 import 'package:vutha_app/src/Model/NotificationData.dart';
@@ -13,6 +14,11 @@ import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/View/Drawer/NavigationDrawer.dart';
 import 'package:vutha_app/src/View/Map/RequestMap.dart';
 import 'package:vutha_app/src/View/Map/TrackingSericeMan.dart';
+
+import 'package:vutha_app/src/Controller/NotificationController/NotificationController.dart' as notification_controller;
+import 'package:vutha_app/src/Controller/MapController/MapActivityController.dart' as map_activity_controler;
+
+
 
 class MapActivity extends StatefulWidget {
   var number;
@@ -50,6 +56,14 @@ class _MapActivityState extends State<MapActivity> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+
+
+    map_activity_controler.loadUser();
+
+    notification_controller.registerNotification();
+    notification_controller.configLocalNotification();
+    notification_controller.configureSelectNotificationSubject(context);
   }
 
   @override
@@ -90,7 +104,11 @@ class _MapActivityState extends State<MapActivity> {
                           serviceManLat: value["serviceManLat"],
                           userLan: value["lan"],
                           userlat: value["lat"],
-                          serviceManNumber: serviceNumber);
+                          serviceManNumber: serviceNumber,
+
+                          id: key,
+
+                      );
                     }
                   });
                 });

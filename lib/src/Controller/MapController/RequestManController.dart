@@ -28,6 +28,9 @@ Future<User> loadUser() async {
         name: value.value["Name"],
         email: value.value["Email"],
         number: Common.user_number);
+
+
+    Common.user =user;
   });
 
   return user;
