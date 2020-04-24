@@ -249,8 +249,8 @@ class _RegsiationPageState extends State<RegsiationPage> {
                 _phone_controller,
                 _date_of_birth_controller,
                 _scaffoldKey,
-                startLoading(),
-                stopLoading(),
+                startLoading,
+                stopLoading,
                 context,
                 country_code);
 

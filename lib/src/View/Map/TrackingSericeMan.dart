@@ -58,7 +58,9 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
               ? Positioned.fill(
                   child: Align(
                   alignment: Alignment.center,
-                  child: CupertinoActivityIndicator(),
+                  child: CupertinoActivityIndicator(
+                    radius: 30,
+                  ),
                 ))
               : Container(),
         ],
@@ -216,7 +218,6 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
                 //////////////////////
 
                 Navigator.pop(context);
-
               }),
           new FlatButton(
               child: const Text(

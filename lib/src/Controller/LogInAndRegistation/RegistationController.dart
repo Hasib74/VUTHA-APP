@@ -18,8 +18,8 @@ void sign_up(
     _phone_controller,
     _date_of_birth_controller,
     _scaffoldKey,
-    Function startLoading,
-    Function stopLoading,
+    startLoading,
+    stopLoading,
     context,
     country_code) {
   if (_check_value) {
@@ -40,7 +40,8 @@ void sign_up(
       } else {
         //_sendCodeToPhoneNumber();
 
-        stopLoading();
+        startLoading;
+
         verifyPhone(
             _name_controller,
             _email_controller,
@@ -73,7 +74,7 @@ Future<void> verifyPhone(
     _surName_controller,
     _phone_controller,
     _password_controller,
-    Function stopLoading(),
+    Function stopLoading,
     context,
     country_code) async {
   // print("Number code" + _current_country_code);

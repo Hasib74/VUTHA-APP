@@ -96,7 +96,7 @@ class _MapActivityState extends State<MapActivity> {
                   Map<dynamic, dynamic> _myService = value;
 
                   _myService.forEach((key, value) {
-                    if (value["userNumber"] == widget.number) {
+                    if (value["userNumber"] == widget.number && value["status"] == "accept") {
                       print("Valueeeeeeeeeeeeeee    ${value}");
 
                       activeService = new ActiveService(

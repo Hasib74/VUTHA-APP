@@ -17,23 +17,24 @@ class NavigationDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Stack(
-      children: <Widget>[
-        new Container(
-          padding: EdgeInsets.only(top: 50),
-          decoration: BoxDecoration(
-              color: Color(0xffFFFFFF),
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10))),
-          width: MediaQuery.of(context).size.width / 1.8,
-          height: MediaQuery.of(context).size.height,
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                onTap: () {
-                  /* Navigator.of(context)
+    return Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: <Widget>[
+            new Container(
+              padding: EdgeInsets.only(top: 50),
+              decoration: BoxDecoration(
+                  color: Color(0xffFFFFFF),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10))),
+              width: MediaQuery.of(context).size.width / 1.8,
+              height: MediaQuery.of(context).size.height,
+              child: ListView(
+                children: <Widget>[
+                  ListTile(
+                    onTap: () {
+                      /* Navigator.of(context)
                       .push(new MaterialPageRoute(
                           builder: (context) => Chat(
                                 number: number,
@@ -42,69 +43,65 @@ class NavigationDrawer extends StatelessWidget {
                     closeDrawer();
                   });*/
 
-                  closeDrawer();
+                      closeDrawer();
 
-                  routes.normalRoute(
-                      context,
-                      Chat(
-                        number: number,
-                      ));
-                },
-                leading: Icon(
-                  Icons.chat,
-                  color: Colors.orange,
-                ),
-                title: Text(
-                  "Chat",
-                  style: TextStyle(
+                      routes.normalRoute(
+                          context,
+                          Chat(
+                            number: number,
+                          ));
+                    },
+                    leading: Icon(
+                      Icons.chat,
                       color: Colors.orange,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17),
-                ),
+                    ),
+                    title: Text(
+                      "Chat",
+                      style: TextStyle(
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      closeDrawer();
+                      routes.normalRoute(context, HistoryPage());
+                    },
+                    leading: Icon(
+                      Icons.history,
+                      color: Colors.orange,
+                    ),
+                    title: Text(
+                      "Histoty",
+                      style: TextStyle(
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      removeLogInInfo(context);
+                    },
+                    leading: Icon(
+                      Icons.exit_to_app,
+                      color: Colors.orange,
+                    ),
+                    title: Text(
+                      "Log Out",
+                      style: TextStyle(
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  )
+                ],
               ),
-
-
-              ListTile(
-                onTap: () {
-
-                  closeDrawer();
-                  routes.normalRoute(context, HistoryPage());
-                },
-                leading: Icon(
-                  Icons.history,
-                  color: Colors.orange,
-                ),
-                title: Text(
-                  "Histoty",
-                  style: TextStyle(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17),
-                ),
-              ),
-
-              ListTile(
-                onTap: () {
-                  removeLogInInfo(context);
-                },
-                leading: Icon(
-                  Icons.exit_to_app,
-                  color: Colors.orange,
-                ),
-                title: Text(
-                  "Log Out",
-                  style: TextStyle(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17),
-                ),
-              )
-            ],
-          ),
-        ),
-        closeDrawerIcon()
-      ],
-    ));
+            ),
+            closeDrawerIcon()
+          ],
+        ));
   }
 
   Positioned closeDrawerIcon() {

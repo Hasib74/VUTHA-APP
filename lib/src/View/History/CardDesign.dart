@@ -13,12 +13,8 @@ class CardDesign extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: new Container(
         decoration: BoxDecoration(
-
-          color: Colors.white,
-
-          borderRadius: BorderRadius.all(Radius.circular(7))
-
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(7))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -33,7 +29,6 @@ class CardDesign extends StatelessWidget {
                 ),
                 Text(
                   " ${history.date}",
-
                 ),
               ],
             ),
@@ -48,7 +43,6 @@ class CardDesign extends StatelessWidget {
                 ),
                 Text(
                   " ${history.serviceType}",
-
                 ),
               ],
             ),
@@ -63,7 +57,6 @@ class CardDesign extends StatelessWidget {
                 ),
                 Text(
                   " ${history.serviceManNumber}",
-
                 ),
               ],
             ),
@@ -77,17 +70,17 @@ class CardDesign extends StatelessWidget {
                       fontSize: 17),
                 ),
                 FutureBuilder(
-                    future:
-                    Common.getUserLocation(history.location.lat, history.location.lan),
+                    future: Common.getUserLocation(
+                        history.location.lat, history.location.lan),
                     builder: (context, data) {
                       if (data.data == null) {
                         return Container();
                       } else {
                         return Flexible(
                             child: Text(
-                              " ${data.data} ",
-                              softWrap: true,
-                            ));
+                          " ${data.data} ",
+                          softWrap: true,
+                        ));
                       }
                     }),
               ],

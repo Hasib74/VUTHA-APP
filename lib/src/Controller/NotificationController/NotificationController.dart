@@ -27,19 +27,18 @@ void registerNotification() {
   firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
     print('onMessage: $message');
 
-    if (message["data"]["type"].toString().endsWith("accepted service")) {
+    if (message["data"]["type"].toString().endsWith("user")) {
       print("Notifiation   ${message["data"]["type"]}");
 
       showNotification(message['data']);
     }
-
     //onSelectNotification(message["data"]["click_action"]);
 
     return;
   }, onResume: (Map<String, dynamic> message) {
     print('onResume: $message');
 
-    if (message["data"]["type"].toString().endsWith("accepted service")) {
+    if (message["data"]["type"].toString().endsWith("user")) {
       print("Notifiation   ${message["data"]["type"]}");
 
       showNotification(message['data']);
@@ -51,8 +50,9 @@ void registerNotification() {
   }, onLaunch: (Map<String, dynamic> message) {
     print('onLaunch: $message');
 
-    if (message["data"]["type"].toString().endsWith("accepted service")) {
+    if (message["data"]["type"].toString().endsWith("user")) {
       print("Notifiation   ${message["data"]["type"]}");
+
       showNotification(message['data']);
     }
 
@@ -148,7 +148,7 @@ void sendNotification(name, help_type) {
       .then((value) {
     NotificationData notificationData = new NotificationData(
         data: Data(
-            type: "send request",
+            type: "admin",
             body: "${name} is requested for ${help_type}",
             title: "New Request",
             click_action: "newRequest"),
