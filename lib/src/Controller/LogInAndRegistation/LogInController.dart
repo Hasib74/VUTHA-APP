@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:vutha_app/src/Controller/SpController/SpController.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
@@ -36,6 +37,9 @@ Future<void> logInWithNumberAndPassword(
     if (value.value != null) {
       if (value.value["Password"] == password) {
         Functions.fun_addLogInInfoToSharePrefarance(number).then((value) {
+
+          print("SPP  ${value}");
+
           Common.user_number = number;
 
           /*  Navigator.of(context).pushAndRemoveUntil(

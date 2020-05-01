@@ -1,7 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:vutha_app/src/Controller/SpController/SpController.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 import 'package:vutha_app/src/View/Chat/Chat.dart';
+import 'package:vutha_app/src/View/Edit/ChangePasswordOrNumber.dart';
 import 'package:vutha_app/src/View/History/History.dart';
 import 'package:vutha_app/src/View/LogInAndRegistation/InitialPage.dart';
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
@@ -28,7 +30,7 @@ class NavigationDrawer extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
                       bottomRight: Radius.circular(10))),
-              width: MediaQuery.of(context).size.width / 1.8,
+              width: MediaQuery.of(context).size.width / 1.4,
               height: MediaQuery.of(context).size.height,
               child: ListView(
                 children: <Widget>[
@@ -74,6 +76,27 @@ class NavigationDrawer extends StatelessWidget {
                     ),
                     title: Text(
                       "Histoty",
+                      style: TextStyle(
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      //removeLogInInfo(context);
+
+                      closeDrawer();
+
+                      routes.normalRoute(context, new ChnagePasswordAndUpdateDisplay());
+
+                    },
+                    leading: Icon(
+                      Icons.autorenew,
+                      color: Colors.orange,
+                    ),
+                    title: Text(
+                      "Chnage Password Or Number",
                       style: TextStyle(
                           color: Colors.orange,
                           fontWeight: FontWeight.bold,

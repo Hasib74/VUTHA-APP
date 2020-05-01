@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vutha_app/src/Controller/SpController/SpController.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 import 'package:vutha_app/src/View/LogInAndRegistation/InitialPage.dart';
@@ -8,6 +10,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   Functions.fun_readLogInInfo().then((value) {
+
+    print("Valuee  ===  ${value}");
     if (value != null) {
       Common.user_number = value;
 
@@ -17,7 +21,7 @@ void main() {
         home: MapActivity(
           number: value,
         ),
-      ));
+      ),);
     } else {
       runApp(MaterialApp(
         home: InitialPage(),

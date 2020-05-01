@@ -158,10 +158,7 @@ void sendNotification(name, help_type) {
   });
 }
 
-
-
-
-void sendNotificationToAdmin(body, help_type ,type) {
+void sendNotificationToAdmin(body, help_type, type) {
   //print("User Name   ${user.name}");
 
   FirebaseDatabase.instance

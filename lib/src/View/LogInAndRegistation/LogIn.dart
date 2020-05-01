@@ -1,6 +1,7 @@
 import 'package:devicelocale/devicelocale.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
@@ -18,23 +19,21 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogIn> {
-  //var _name_controller = TextEditingController();
-  // var _surName_controller = TextEditingController();
+
   var _number_controller = TextEditingController();
   var _password_controller = TextEditingController();
 
-  // var _phone_controller = TextEditingController();
 
-  bool _check_value = false;
+
   var country_code;
   var actualCode;
   var verificationId;
 
-  void _value1Changed(bool value) => setState(() => _check_value = value);
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool loading = false;
+
 
   @override
   void initState() {
