@@ -1,16 +1,2 @@
-# vutha_app
-
-A new Flutter application.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Project Discription
+The user has a registration page and authentication parts for login . For registration, users have to be confirmed by admin to generate code . Then the user can be requested for help. Here helping services are ambulance, roadside, security, and home assets. After getting service user has to pay for it.
