@@ -41,12 +41,22 @@ class ChangePasswordAndNumber extends StatelessWidget {
 
           print("Back press");
         }
+
+        if (provider.loading) {
+          provider.setLoading(false);
+        }
+        if (provider.password_status != null) {
+          provider.setPasswordStatus(null);
+        }
+        if (provider.updateing) {
+          provider.setUpdating(false);
+        }
       },
       child: Scaffold(
         key: _globalKey,
         body: Stack(
           children: [
-            Positioned(top: 10, right: 10, child: Icon(Icons.close)),
+            //Positioned(top: 10, right: 10, child: Icon(Icons.close)),
             Consumer<ChangePasswordAndNumberProvider>(
               builder: (context, provider, child) {
                 print("Provider Valuee ${provider.password_or_number}");
@@ -87,12 +97,10 @@ class ChangePasswordAndNumber extends StatelessWidget {
                     ),
                   ));
                 } else if (provider.error == true) {
+                  //  SnackBarLauncher(error: "Error....");
 
-
-                //  SnackBarLauncher(error: "Error....");
-
-                  WidgetsBinding.instance.addPostFrameCallback((_) => _displaySnackBar( error: "Error..."));
-
+                  WidgetsBinding.instance.addPostFrameCallback(
+                      (_) => _displaySnackBar(error: "Error..."));
 
                   return Container();
                 } else {
@@ -106,20 +114,15 @@ class ChangePasswordAndNumber extends StatelessWidget {
     ));
   }
 
-  void _displaySnackBar( {@required String error}) {
+  void _displaySnackBar({@required String error}) {
+    Builder(builder: (context) {
+      //  Scaffold.of(context).showSnackBar(new SnackBar(content: Text("Error...")));
 
-    Builder(builder: (context){
-
-    //  Scaffold.of(context).showSnackBar(new SnackBar(content: Text("Error...")));
-      
-      _globalKey.currentState.showSnackBar(new SnackBar(content: Text("Error....") ));
-
+      _globalKey.currentState
+          .showSnackBar(new SnackBar(content: Text("Error....")));
     });
-
-
-
   }
- /* void showSnackbar() {
+/* void showSnackbar() {
 
     _globalKey.currentState
         .showSnackBar(new SnackBar(content: Text("Error...")));
@@ -127,18 +130,16 @@ class ChangePasswordAndNumber extends StatelessWidget {
   }*/
 }
 
-
 class SnackBarLauncher extends StatelessWidget {
   final String error;
 
-  const SnackBarLauncher(
-      {Key key, @required this.error})
-      : super(key: key);
+  const SnackBarLauncher({Key key, @required this.error}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (error != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _displaySnackBar(context, error: error));
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => _displaySnackBar(context, error: error));
     }
     // Placeholder container widget
     return Container();
@@ -146,7 +147,7 @@ class SnackBarLauncher extends StatelessWidget {
 
   void _displaySnackBar(BuildContext context, {@required String error}) {
     final snackBar = SnackBar(content: Text(error));
-   // Scaffold.of(context).hideCurrentSnackBar();
+    // Scaffold.of(context).hideCurrentSnackBar();
     Scaffold.of(context).showSnackBar(snackBar);
   }
 }

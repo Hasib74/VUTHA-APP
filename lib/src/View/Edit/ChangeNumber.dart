@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vutha_app/src/Controller/Country/CountryCodeController.dart'
     as conutry_controller;
-import 'package:vutha_app/src/Controller/OtpController/OtpController.dart'
+import 'package:vutha_app/src/Controller/UpdateNumberAndPassword/OtpController/OtpController.dart'
     as otp_controller;
 import 'package:vutha_app/src/Provider/Update/ChnagePasswordAndNumber.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
@@ -13,9 +13,7 @@ class ChangeNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final provider = Provider.of<ChangePasswordAndNumberProvider>(context);
-
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -24,11 +22,9 @@ class ChangeNumber extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: FutureBuilder(
-
             future: conutry_controller.getCountry(),
-            builder: (context, AsyncSnapshot<String> data){
-
-              print("Dataaaa  ${data.data}" );
+            builder: (context, AsyncSnapshot<String> data) {
+              print("Dataaaa  ${data.data}");
 
               if (data.data == "BD") {
                 country_code = "+88";
@@ -45,8 +41,8 @@ class ChangeNumber extends StatelessWidget {
                       widthFactor: 0.0,
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 4.0),
-                        child:
-                        Text('${country_code}', style: TextStyle(fontSize: 15)),
+                        child: Text('${country_code}',
+                            style: TextStyle(fontSize: 15)),
                       ),
                     ),
                   ),
@@ -56,20 +52,17 @@ class ChangeNumber extends StatelessWidget {
                   border: InputBorder.none,
                 ),
               );
-
             },
-
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: () {
-
               provider.setLoading(true);
 
-              otp_controller.verifyPhone(
-                  _number_controller.value.text, country_code, context,provider);
+              otp_controller.verifyPhone(_number_controller.value.text,
+                  country_code, context, provider);
             },
             child: Container(
               height: 40,

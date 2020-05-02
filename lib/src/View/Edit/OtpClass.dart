@@ -10,7 +10,7 @@ import 'package:vutha_app/src/Utls/Functions.dart';
 
 import 'package:vutha_app/src/Controller/LogInAndRegistation/RegistationController.dart'
     as controller;
-import 'package:vutha_app/src/Controller/OtpController/OtpController.dart'
+import 'package:vutha_app/src/Controller/UpdateNumberAndPassword//OtpController/OtpController.dart'
     as otp_controller;
 
 class Otp_Code extends StatefulWidget {
