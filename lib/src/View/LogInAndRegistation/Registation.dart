@@ -10,6 +10,8 @@ import 'package:vutha_app/src/Route/Routs.dart' as routes;
 import 'package:vutha_app/src/Controller/LogInAndRegistation/RegistationController.dart'
     as controller;
 import 'package:vutha_app/src/View/LogInAndRegistation/Otp_Code.dart';
+import 'package:vutha_app/src/Controller/Country/CountryCodeController.dart'
+    as country_control;
 
 class RegsiationPage extends StatefulWidget {
   @override
@@ -34,7 +36,8 @@ class _RegsiationPageState extends State<RegsiationPage> {
   var _confirmPassword_node = new FocusNode();
 
   bool _check_value = false;
-  var country_code = "+27";
+  var country_code;
+
   var actualCode;
   var verificationId;
 
@@ -50,6 +53,18 @@ class _RegsiationPageState extends State<RegsiationPage> {
     super.initState();
 
     //_current_country();
+
+    country_control.getCountry().then((value) {
+      if (value == "BD") {
+        setState(() {
+          country_code = "+88";
+        });
+      } else {
+        setState(() {
+          country_code = "+27";
+        });
+      }
+    });
   }
 
   @override
@@ -239,6 +254,9 @@ class _RegsiationPageState extends State<RegsiationPage> {
         ),
         FlatButton(
           onPressed: () {
+
+            startLoading();
+
             controller.sign_up(
                 _check_value,
                 _password_controller,

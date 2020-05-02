@@ -12,6 +12,8 @@ import 'package:vutha_app/src/Controller/LogInAndRegistation/LogInController.dar
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
+import 'package:vutha_app/src/Controller/Country/CountryCodeController.dart'
+    as country_control;
 
 class LogIn extends StatefulWidget {
   @override
@@ -19,28 +21,33 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogIn> {
-
   var _number_controller = TextEditingController();
   var _password_controller = TextEditingController();
-
-
 
   var country_code;
   var actualCode;
   var verificationId;
 
-
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool loading = false;
-
-
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    country_control.getCountry().then((value) {
+      if (value == "BD") {
+        setState(() {
+          country_code = "+88";
+        });
+      } else {
+        setState(() {
+          country_code = "+27";
+        });
+      }
+    });
   }
 
   @override
@@ -98,7 +105,7 @@ class _LogInPageState extends State<LogIn> {
                   widthFactor: 0.0,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 4.0),
-                    child: Text('+27', style: TextStyle(fontSize: 15)),
+                    child: Text(country_code, style: TextStyle(fontSize: 15)),
                   ),
                 ),
               ),
@@ -133,7 +140,7 @@ class _LogInPageState extends State<LogIn> {
 
             //_number_controller,_password_controller,_scaffoldKey , context
 
-            if (controller.logIn(_number_controller, _password_controller,
+            if (controller.logIn(country_code,_number_controller, _password_controller,
                 _scaffoldKey, context)) {
               setState(() {
                 loading = true;

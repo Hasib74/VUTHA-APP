@@ -8,6 +8,7 @@ import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 import 'package:vutha_app/src/View/LogInAndRegistation/Otp_Code.dart';
 import 'package:vutha_app/src/View/Map/MapActivity.dart';
+import 'package:vutha_app/src/View/MasterCode/MasterCodeAuthentication.dart';
 
 void sign_up(
     _check_value,
@@ -41,7 +42,7 @@ void sign_up(
       } else {
         //_sendCodeToPhoneNumber();
 
-        startLoading;
+        startLoading();
 
         verifyPhone(
             _name_controller,
@@ -49,6 +50,7 @@ void sign_up(
             _surName_controller,
             _phone_controller,
             _password_controller,
+            _date_of_birth_controller,
             stopLoading,
             context,
             country_code);
@@ -75,6 +77,7 @@ Future<void> verifyPhone(
     _surName_controller,
     _phone_controller,
     _password_controller,
+    _date_of_birth_controller,
     Function stopLoading,
     context,
     country_code) async {
@@ -86,16 +89,18 @@ Future<void> verifyPhone(
 
       stopLoading();
 
-      /*Navigator.of(context).push(new MaterialPageRoute(
-            builder: (context) => Otp_Code(
-                  otp_id: verId,
-                  name: _name_controller.text,
-                  email: _email_controller.text,
-                  surname: _surName_controller.text,
-                  phoneNumber: _phone_controller.text,
-                )));*/
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (context) => Otp_Code(
+                otp_id: verId,
+                name: _name_controller.text,
+                email: _email_controller.text,
+                surname: _surName_controller.text,
+                phoneNumber: _phone_controller.text,
+                password: _password_controller.value.text,
+                dateOfBirth: _date_of_birth_controller.text,
+              )));
 
-      routes.normalRoute(
+      /*  routes.normalRoute(
           context,
           Otp_Code(
             otp_id: verId,
@@ -103,7 +108,7 @@ Future<void> verifyPhone(
             email: _email_controller.text,
             surname: _surName_controller.text,
             phoneNumber: _phone_controller.text,
-          ));
+          ));*/
     }
   };
   try {
@@ -122,7 +127,7 @@ Future<void> verifyPhone(
 
             stopLoading();
 
-            Navigator.of(context).push(new MaterialPageRoute(
+            /*  Navigator.of(context).push(new MaterialPageRoute(
                 builder: (context) => Otp_Code(
                       otp_id: verId,
                       name: _name_controller.text,
@@ -130,7 +135,8 @@ Future<void> verifyPhone(
                       surname: _surName_controller.text,
                       phoneNumber: _phone_controller.text,
                       password: _password_controller.value.text,
-                    )));
+                      dateOfBirth: _date_of_birth_controller.text,
+                    )));*/
           }
         },
         codeSent: smsOTPSent,
@@ -183,7 +189,7 @@ Future<String> testSignInWithPhoneNumber(otp_id, _otp_code_contoller, context,
   return status;
 }
 
-OTPsignUp(name, surname, email, dateOfBirth, password, otp_id,
+void OTPsignUp(name, surname, email, dateOfBirth, password, otp_id,
     _otp_code_contoller, context, startLoading, stopLoading) {
   testSignInWithPhoneNumber(
           otp_id, _otp_code_contoller, context, startLoading, stopLoading)
@@ -198,7 +204,7 @@ OTPsignUp(name, surname, email, dateOfBirth, password, otp_id,
           .set({
         "Name": name + " " + surname,
         "Email": email,
-        "DOF": dateOfBirth,
+        "DOB": dateOfBirth,
         "Password": password
       }).then((value) => _navigateToOtherActivity(number, context));
     } else {
@@ -224,7 +230,7 @@ _navigateToOtherActivity(number, context) {
 
     routes.routeAndRemovePreviousRoute(
         context,
-        MapActivity(
+        MasterCode(
           number: number,
         ));
   });
