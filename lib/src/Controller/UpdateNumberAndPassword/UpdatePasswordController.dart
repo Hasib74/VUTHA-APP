@@ -15,20 +15,15 @@ Future<String> validation(
     if (previous_password.toString().isNotEmpty &&
             new_password.toString().isNotEmpty ||
         confirm_password.toString().isNotEmpty) {
-
       print("valueeeee  ${value}");
-
-
 
       if (value.value == previous_password) {
         if (new_password == confirm_password) {
-
-          if(new_password.toString().length>5){
+          if (new_password.toString().length > 5) {
             status = "success";
-          }else{
+          } else {
             status = "Password shouldbe more then 6 charecter";
           }
-
         } else {
           status = "Password Not Matched";
         }
@@ -50,7 +45,7 @@ Future<bool> updatePassword(password) async {
       .reference()
       .child(Common.USER)
       .child(Common.user_number)
-      .update({"Passsword": password}).then((value) {
+      .update({"Password": password}).then((value) {
     status = true;
   }).catchError((err) => status = false);
 
