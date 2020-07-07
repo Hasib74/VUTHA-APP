@@ -15,10 +15,10 @@ import 'package:vutha_app/src/View/Drawer/NavigationDrawer.dart';
 import 'package:vutha_app/src/View/Map/RequestMap.dart';
 import 'package:vutha_app/src/View/Map/TrackingSericeMan.dart';
 
-import 'package:vutha_app/src/Controller/NotificationController/NotificationController.dart' as notification_controller;
-import 'package:vutha_app/src/Controller/MapController/MapActivityController.dart' as map_activity_controler;
-
-
+import 'package:vutha_app/src/Controller/NotificationController/NotificationController.dart'
+    as notification_controller;
+import 'package:vutha_app/src/Controller/MapController/MapActivityController.dart'
+    as map_activity_controler;
 
 class MapActivity extends StatefulWidget {
   var number;
@@ -57,8 +57,6 @@ class _MapActivityState extends State<MapActivity> {
     // TODO: implement initState
     super.initState();
 
-
-
     map_activity_controler.loadUser();
 
     notification_controller.registerNotification();
@@ -96,18 +94,17 @@ class _MapActivityState extends State<MapActivity> {
                   Map<dynamic, dynamic> _myService = value;
 
                   _myService.forEach((key, value) {
-                    if (value["userNumber"] == widget.number && value["status"] == "accept") {
+                    if (value["userNumber"] == widget.number &&
+                        value["status"] == "accept") {
                       print("Valueeeeeeeeeeeeeee    ${value}");
 
                       activeService = new ActiveService(
-                          serviceManLan: value["serviceManLan"],
-                          serviceManLat: value["serviceManLat"],
-                          userLan: value["lan"],
-                          userlat: value["lat"],
-                          serviceManNumber: serviceNumber,
-
-                          id: key,
-
+                        serviceManLan: value["serviceManLan"],
+                        serviceManLat: value["serviceManLat"],
+                        userLan: value["lan"],
+                        userlat: value["lat"],
+                        serviceManNumber: serviceNumber,
+                        id: key,
                       );
                     }
                   });

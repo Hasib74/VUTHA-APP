@@ -18,3 +18,22 @@ Future<bool> isMasterCodeChecked() async {
 
   return auth;
 }
+
+Future<bool> isRegisterMiddleWare() async {
+  bool auth = false;
+
+  await FirebaseDatabase.instance
+      .reference()
+      .child(Common.USER)
+      .child(Common.user_number)
+      .once()
+      .then((value) {
+    if (value.value != null) {
+      auth = true;
+    } else {
+      auth = false;
+    }
+  });
+
+  return auth;
+}

@@ -20,7 +20,7 @@ class _HistoryPageState extends State<HistoryPage> {
             .child(Common.user_number)
             .onValue,
         builder: (context, snapshot) {
-          if (snapshot.data == null) {
+          if (snapshot.data == null || snapshot==null || snapshot.data.snapshot.value ==null ) {
             return Center(
               child: new Container(
                 child: Text("No History"),

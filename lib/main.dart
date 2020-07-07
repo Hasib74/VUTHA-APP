@@ -20,23 +20,31 @@ void main() {
 
       print("Value  ${value} ");
 
-      master_code_middleware.isMasterCodeChecked().then((value) {
+      master_code_middleware.isRegisterMiddleWare().then((value) {
         if (value) {
-          runApp(
-            MaterialApp(
-              home: MapActivity(
-                number: Common.user_number,
-              ),
-            ),
-          );
+          master_code_middleware.isMasterCodeChecked().then((value) {
+            if (value) {
+              runApp(
+                MaterialApp(
+                  home: MapActivity(
+                    number: Common.user_number,
+                  ),
+                ),
+              );
+            } else {
+              runApp(
+                MaterialApp(
+                  home: MasterCode(
+                    number: Common.user_number,
+                  ),
+                ),
+              );
+            }
+          });
         } else {
-          runApp(
-            MaterialApp(
-              home: MasterCode(
-                number: Common.user_number,
-              ),
-            ),
-          );
+          runApp(MaterialApp(
+            home: InitialPage(),
+          ));
         }
       });
     } else {

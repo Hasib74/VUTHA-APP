@@ -94,7 +94,7 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
         alignment: Alignment.bottomCenter,
         child: Container(
           width: MediaQuery.of(context).size.width / 1.1,
-          height: 200,
+          height: 100,
           decoration:
               BoxDecoration(color: Colors.white.withOpacity(0.6), boxShadow: [
             BoxShadow(color: Colors.black12, spreadRadius: 1, blurRadius: 1),
@@ -104,7 +104,7 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(
+                /* Text(
                   "${distance == null ? "" : distance}",
                   style: TextStyle(
                       color: Colors.black,
@@ -117,7 +117,7 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
                       color: Colors.black54,
                       fontSize: 25,
                       fontWeight: FontWeight.w900),
-                ),
+                ),*/
                 Padding(
                   padding: EdgeInsets.all(8),
                 ),

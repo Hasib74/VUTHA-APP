@@ -38,6 +38,7 @@ class _LogInPageState extends State<LogIn> {
     super.initState();
 
     country_control.getCountry().then((value) {
+      print("The value is  ${value}");
       if (value == "BD") {
         setState(() {
           country_code = "+88";
@@ -140,8 +141,8 @@ class _LogInPageState extends State<LogIn> {
 
             //_number_controller,_password_controller,_scaffoldKey , context
 
-            if (controller.logIn(country_code,_number_controller, _password_controller,
-                _scaffoldKey, context)) {
+            if (controller.logIn(country_code, _number_controller,
+                _password_controller, _scaffoldKey, context)) {
               setState(() {
                 loading = true;
               });

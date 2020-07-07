@@ -53,7 +53,8 @@ void sign_up(
             _date_of_birth_controller,
             stopLoading,
             context,
-            country_code);
+            country_code,
+            _scaffoldKey);
       }
     } else {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -80,7 +81,8 @@ Future<void> verifyPhone(
     _date_of_birth_controller,
     Function stopLoading,
     context,
-    country_code) async {
+    country_code,
+    _scaffoldKey) async {
   // print("Number code" + _current_country_code);
 
   final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
@@ -147,6 +149,14 @@ Future<void> verifyPhone(
         },
         verificationFailed: (AuthException exceptio) {
           print('${exceptio.message}');
+
+          stopLoading();
+
+          _scaffoldKey.currentState.showSnackBar(new SnackBar(
+              content: new Text(
+            'Phone Number is not formated .Please checked your number !!!',
+            style: TextStyle(color: Colors.red),
+          )));
         });
   } catch (e) {
     print("Errorrrrr  $e");
