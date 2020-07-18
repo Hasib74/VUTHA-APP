@@ -57,6 +57,7 @@ void sign_up(
             _scaffoldKey);
       }
     } else {
+      stopLoading();
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
           content: new Text(
         'Password is not matched  !',
@@ -64,6 +65,8 @@ void sign_up(
       )));
     }
   } else {
+    stopLoading();
+
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text(
       'Please checked the trams and condition',

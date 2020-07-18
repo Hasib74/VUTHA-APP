@@ -6,10 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vutha_app/src/Controller/MapController/RequestManController.dart';
+import 'package:vutha_app/src/Middleware/MasterCode.dart';
 
 import 'package:vutha_app/src/Model/ActiveService.dart';
 import 'package:vutha_app/src/Model/NotificationData.dart';
 import 'package:vutha_app/src/Model/User.dart';
+import 'package:vutha_app/src/Route/Routs.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/View/Drawer/NavigationDrawer.dart';
 import 'package:vutha_app/src/View/Map/RequestMap.dart';
@@ -19,6 +21,7 @@ import 'package:vutha_app/src/Controller/NotificationController/NotificationCont
     as notification_controller;
 import 'package:vutha_app/src/Controller/MapController/MapActivityController.dart'
     as map_activity_controler;
+import 'package:vutha_app/src/View/MasterCode/MasterCodeAuthentication.dart';
 
 class MapActivity extends StatefulWidget {
   var number;
@@ -66,6 +69,17 @@ class _MapActivityState extends State<MapActivity> {
 
   @override
   Widget build(BuildContext context) {
+    isMasterCodeChecked().then((value) {
+      print("The Value   ${value}");
+      if (!value) {
+        routeAndRemovePreviousRoute(
+            context,
+            MasterCode(
+              number: Common.user.number,
+            ));
+      }
+    });
+
     closeDrawer() {
       _key.currentState.openEndDrawer();
     }

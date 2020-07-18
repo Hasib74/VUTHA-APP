@@ -1,8 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:vutha_app/src/Middleware/MasterCode.dart';
 import 'package:vutha_app/src/Model/History.dart';
+import 'package:vutha_app/src/Route/Routs.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/View/History/CardDesign.dart';
+import 'package:vutha_app/src/View/MasterCode/MasterCodeAuthentication.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -10,8 +13,20 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+
   @override
   Widget build(BuildContext context) {
+
+
+    isMasterCodeChecked().then((value) {
+      if (!value) {
+        routeAndRemovePreviousRoute(
+            context,
+            MasterCode(
+              number: Common.user.number,
+            ));
+      }
+    });
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseDatabase.instance
@@ -20,7 +35,9 @@ class _HistoryPageState extends State<HistoryPage> {
             .child(Common.user_number)
             .onValue,
         builder: (context, snapshot) {
-          if (snapshot.data == null || snapshot==null || snapshot.data.snapshot.value ==null ) {
+          if (snapshot.data == null ||
+              snapshot == null ||
+              snapshot.data.snapshot.value == null) {
             return Center(
               child: new Container(
                 child: Text("No History"),
@@ -31,7 +48,6 @@ class _HistoryPageState extends State<HistoryPage> {
 
             List<History> history_list = new List();
             historys.forEach((key, value) {
-
               print("Key  ${key}");
 
               print("Value  ${value}");
@@ -45,13 +61,11 @@ class _HistoryPageState extends State<HistoryPage> {
                       lan: value["location"]["lan"])));
             });
 
-
-            return ListView.builder(  itemCount: history_list.length ,itemBuilder: (context,int index){
-
-
-              return  CardDesign(history:history_list[index]);
-
-            });
+            return ListView.builder(
+                itemCount: history_list.length,
+                itemBuilder: (context, int index) {
+                  return CardDesign(history: history_list[index]);
+                });
           }
         },
       ),

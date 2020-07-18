@@ -47,11 +47,13 @@ class NavigationDrawer extends StatelessWidget {
 
                       closeDrawer();
 
-                      routes.normalRoute(
-                          context,
-                          Chat(
-                            number: number,
-                          ));
+                      try {
+                        routes.normalRoute(
+                            context,
+                            Chat(
+                              number: number,
+                            ));
+                      } catch (err) {}
                     },
                     leading: Icon(
                       Icons.chat,
@@ -88,8 +90,8 @@ class NavigationDrawer extends StatelessWidget {
 
                       closeDrawer();
 
-                      routes.normalRoute(context, new ChnagePasswordAndUpdateDisplay());
-
+                      routes.normalRoute(
+                          context, new ChnagePasswordAndUpdateDisplay());
                     },
                     leading: Icon(
                       Icons.autorenew,

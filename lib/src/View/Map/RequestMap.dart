@@ -4,12 +4,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vutha_app/src/Middleware/MasterCode.dart';
 import 'package:vutha_app/src/Model/NotificationData.dart';
 import 'package:vutha_app/src/Model/User.dart';
+import 'package:vutha_app/src/Route/Routs.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 
 import 'package:vutha_app/src/Controller/MapController/RequestManController.dart'
     as controller;
+import 'package:vutha_app/src/View/MasterCode/MasterCodeAuthentication.dart';
 
 class RequestMap extends StatefulWidget {
   @override
@@ -86,6 +89,17 @@ class _RequestMapState extends State<RequestMap> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    isMasterCodeChecked().then((value) {
+      if (!value) {
+        routeAndRemovePreviousRoute(
+            context,
+            MasterCode(
+              number: Common.user.number,
+            ));
+      }
+    });
     return Stack(
       children: <Widget>[
         _buildGoogleMap(context),

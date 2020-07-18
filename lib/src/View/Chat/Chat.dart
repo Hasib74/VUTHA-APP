@@ -1,9 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:vutha_app/src/Middleware/MasterCode.dart';
 import 'package:vutha_app/src/Model/ChatModel.dart';
+import 'package:vutha_app/src/Model/User.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Controller/ChatController/ChatController.dart'
     as controller;
+import 'package:vutha_app/src/Route/Routs.dart' as route;
+import 'package:vutha_app/src/View/MasterCode/MasterCodeAuthentication.dart';
 
 class Chat extends StatefulWidget {
   var number;
@@ -25,17 +29,37 @@ class _ChatState extends State<Chat> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    //widget.number = "+8801406582590";
   }
 
   @override
   Widget build(BuildContext context) {
 //    print("Number is  ${number}");
 
+    isMasterCodeChecked().then((value) {
+      if (!value) {
+        route.routeAndRemovePreviousRoute(
+            context,
+            MasterCode(
+              number: Common.user.number,
+            ));
+      }
+    });
+
     size = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: InkWell(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: new Icon(
+              Icons.arrow_back,
+              color: Colors.amber,
+            )),
+      ),
       body: Column(
         children: <Widget>[ChatBody(), TextFiledAndSendButton(context)],
       ),
@@ -174,7 +198,6 @@ class _ChatState extends State<Chat> {
                     )
                   : InkWell(
                       //  onTap: ()=>send_message(),
-
                       child: Icon(
                         Icons.send,
                         color: Colors.black54,

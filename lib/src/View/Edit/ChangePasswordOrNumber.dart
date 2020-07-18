@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vutha_app/src/Middleware/MasterCode.dart';
 import 'package:vutha_app/src/Provider/Update/ChnagePasswordAndNumber.dart';
+import 'package:vutha_app/src/Route/Routs.dart';
+import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/View/Edit/ChangeNumber.dart';
 import 'package:vutha_app/src/View/Edit/ChangePassword.dart';
 import 'package:vutha_app/src/View/Edit/Widget/ChangeNumberWidget.dart';
 import 'package:vutha_app/src/View/Edit/Widget/ChangePasswordWidget.dart';
+import 'package:vutha_app/src/View/MasterCode/MasterCodeAuthentication.dart';
 
 class ChnagePasswordAndUpdateDisplay extends StatelessWidget {
   @override
@@ -22,6 +26,18 @@ class ChangePasswordAndNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+    isMasterCodeChecked().then((value) {
+      if (!value) {
+        routeAndRemovePreviousRoute(
+            context,
+            MasterCode(
+              number: Common.user.number,
+            ));
+      }
+    });
+
     final provider = Provider.of<ChangePasswordAndNumberProvider>(context);
 
     print("valueeeeeeeeeeeeeee iss ${provider.password_or_number}");

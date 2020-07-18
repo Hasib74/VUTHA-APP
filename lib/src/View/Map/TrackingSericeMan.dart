@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vutha_app/src/Controller/MapController/TrackingServiceManController.dart'
     as controller;
+import 'package:vutha_app/src/Middleware/MasterCode.dart';
 import 'package:vutha_app/src/Model/ActiveService.dart';
+import 'package:vutha_app/src/Route/Routs.dart';
+import 'package:vutha_app/src/Utls/Common.dart';
+import 'package:vutha_app/src/View/MasterCode/MasterCodeAuthentication.dart';
 
 class TrackingServiceMan extends StatefulWidget {
   ActiveService activeService;
@@ -46,6 +50,17 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
 
   @override
   Widget build(BuildContext context) {
+
+    isMasterCodeChecked().then((value) {
+      if (!value) {
+        routeAndRemovePreviousRoute(
+            context,
+            MasterCode(
+              number: Common.user.number,
+            ));
+      }
+    });
+
     return Scaffold(
       body: Stack(
         children: [
