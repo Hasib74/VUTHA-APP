@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:vutha_app/src/Provider/Update/ChnagePasswordAndNumber.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 
@@ -80,7 +81,7 @@ class _Otp_CodeState extends State<Otp_Code> {
                               new SnackBar(content: Text("Empty!!!")));
                         }
                       },
-                      color: Colors.orange,
+                      color: AppColors.primaryColor,
                       child: Text(
                         "Validate OTP",
                         style: TextStyle(color: Color(0xffEAEBF2)),

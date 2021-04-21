@@ -12,6 +12,7 @@ import 'package:vutha_app/src/Model/ActiveService.dart';
 import 'package:vutha_app/src/Model/NotificationData.dart';
 import 'package:vutha_app/src/Model/User.dart';
 import 'package:vutha_app/src/Route/Routs.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/View/Drawer/NavigationDrawer.dart';
 import 'package:vutha_app/src/View/Map/RequestMap.dart';
@@ -159,7 +160,7 @@ class _MapActivityState extends State<MapActivity> {
         },
         child: Icon(
           Icons.menu,
-          color: Colors.orange,
+          color: AppColors.primaryColor,
           size: 30,
         ),
       ),

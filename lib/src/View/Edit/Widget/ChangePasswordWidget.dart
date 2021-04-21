@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vutha_app/src/Provider/Update/ChnagePasswordAndNumber.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 
 class ChangePasswordWidget extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class ChangePasswordWidget extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: 40,
-        decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+        decoration: BoxDecoration(color: AppColors.primaryColor, boxShadow: [
           BoxShadow(color: Colors.black26, blurRadius: 1, spreadRadius: 1)
         ]),
         child: Center(

@@ -5,6 +5,7 @@ import 'package:vutha_app/src/Controller/Country/CountryCodeController.dart'
 import 'package:vutha_app/src/Controller/UpdateNumberAndPassword/OtpController/OtpController.dart'
     as otp_controller;
 import 'package:vutha_app/src/Provider/Update/ChnagePasswordAndNumber.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 
 class ChangeNumber extends StatelessWidget {
@@ -66,7 +67,7 @@ class ChangeNumber extends StatelessWidget {
             },
             child: Container(
               height: 40,
-              decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+              decoration: BoxDecoration(color: AppColors.primaryColor, boxShadow: [
                 BoxShadow(color: Colors.black26, blurRadius: 1, spreadRadius: 1)
               ]),
               child: Center(

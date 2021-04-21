@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:vutha_app/src/Controller/SpController/SpController.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 import 'package:vutha_app/src/View/Chat/Chat.dart';
 import 'package:vutha_app/src/View/Edit/ChangePasswordOrNumber.dart';
@@ -57,12 +58,12 @@ class NavigationDrawer extends StatelessWidget {
                     },
                     leading: Icon(
                       Icons.chat,
-                      color: Colors.orange,
+                      color: AppColors.primaryColor,
                     ),
                     title: Text(
                       "Chat",
                       style: TextStyle(
-                          color: Colors.orange,
+                          color: AppColors.primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 17),
                     ),
@@ -74,12 +75,12 @@ class NavigationDrawer extends StatelessWidget {
                     },
                     leading: Icon(
                       Icons.history,
-                      color: Colors.orange,
+                      color: AppColors.primaryColor,
                     ),
                     title: Text(
                       "Histoty",
                       style: TextStyle(
-                          color: Colors.orange,
+                          color: AppColors.primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 17),
                     ),
@@ -95,12 +96,12 @@ class NavigationDrawer extends StatelessWidget {
                     },
                     leading: Icon(
                       Icons.autorenew,
-                      color: Colors.orange,
+                      color: AppColors.primaryColor,
                     ),
                     title: Text(
                       "Chnage Password Or Number",
                       style: TextStyle(
-                          color: Colors.orange,
+                          color: AppColors.primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 17),
                     ),
@@ -111,12 +112,12 @@ class NavigationDrawer extends StatelessWidget {
                     },
                     leading: Icon(
                       Icons.exit_to_app,
-                      color: Colors.orange,
+                      color: AppColors.primaryColor,
                     ),
                     title: Text(
                       "Log Out",
                       style: TextStyle(
-                          color: Colors.orange,
+                          color: AppColors.primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 17),
                     ),

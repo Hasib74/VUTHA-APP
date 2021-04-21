@@ -8,10 +8,12 @@ import 'package:vutha_app/src/Middleware/MasterCode.dart';
 import 'package:vutha_app/src/Model/NotificationData.dart';
 import 'package:vutha_app/src/Model/User.dart';
 import 'package:vutha_app/src/Route/Routs.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 
 import 'package:vutha_app/src/Controller/MapController/RequestManController.dart'
     as controller;
+import 'package:vutha_app/src/View/Map/MapStyle.dart';
 import 'package:vutha_app/src/View/MasterCode/MasterCodeAuthentication.dart';
 
 class RequestMap extends StatefulWidget {
@@ -89,8 +91,6 @@ class _RequestMapState extends State<RequestMap> {
 
   @override
   Widget build(BuildContext context) {
-
-
     isMasterCodeChecked().then((value) {
       if (!value) {
         routeAndRemovePreviousRoute(
@@ -121,6 +121,7 @@ class _RequestMapState extends State<RequestMap> {
             CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 14),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
+          controller.setMapStyle(mapStyles);
         },
       ),
     );
@@ -149,13 +150,14 @@ class _RequestMapState extends State<RequestMap> {
                         });
                       },
                       child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.orange, boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 0.5,
-                          )
-                        ]),
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 0.5,
+                              )
+                            ]),
                         height: 35,
                         child: Center(
                             child: Text(
@@ -182,13 +184,14 @@ class _RequestMapState extends State<RequestMap> {
                         });
                       },
                       child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.orange, boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 0.5,
-                          )
-                        ]),
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 0.5,
+                              )
+                            ]),
                         height: 35,
                         child: Center(
                             child: Text(
@@ -219,13 +222,14 @@ class _RequestMapState extends State<RequestMap> {
                         });
                       },
                       child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.orange, boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 0.5,
-                          )
-                        ]),
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 0.5,
+                              )
+                            ]),
                         height: 35,
                         child: Center(
                             child: Text(
@@ -247,18 +251,18 @@ class _RequestMapState extends State<RequestMap> {
                       onTap: () {
                         setState(() {
                           var_check_for_help = true;
-
                           help_type = "Rode Side";
                         });
                       },
                       child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.orange, boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 0.5,
-                          )
-                        ]),
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 0.5,
+                              )
+                            ]),
                         height: 35,
                         child: Center(
                             child: Text(
@@ -296,11 +300,11 @@ class _RequestMapState extends State<RequestMap> {
                 curve: Curves.fastOutSlowIn,*/
 
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.primaryColor,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey,
+                      color: AppColors.secondaryColor,
                       blurRadius: 5.0,
                     ),
                   ]),
@@ -320,7 +324,7 @@ class _RequestMapState extends State<RequestMap> {
                               ? Text(
                                   "Hold the button below until a request is made and the closest private security will immediately be dispatched to your location",
                                   style: TextStyle(
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                       fontSize: 17,
                                       fontWeight: FontWeight.w300,
                                       letterSpacing: 0.5),
@@ -328,7 +332,7 @@ class _RequestMapState extends State<RequestMap> {
                               : Text(
                                   "You have requested for  ${help_type} .But if you want to cancel request please tab the cancel button .Thanks",
                                   style: TextStyle(
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                       fontSize: 17,
                                       fontWeight: FontWeight.w300,
                                       letterSpacing: 0.5),
@@ -356,7 +360,7 @@ class _RequestMapState extends State<RequestMap> {
                                     height: 50,
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
-                                        color: Colors.orange,
+                                        color: AppColors.primaryColor,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5)),
                                         boxShadow: [
@@ -395,7 +399,7 @@ class _RequestMapState extends State<RequestMap> {
                                     height: 50,
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
-                                        color: Colors.grey,
+                                        color: AppColors.secondaryColor,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5)),
                                         boxShadow: [

@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
 import 'package:vutha_app/src/Controller/LogInAndRegistation/RegistationController.dart'
 as controller;
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/View/LogInAndRegistation/Otp_Code.dart';
 import 'package:vutha_app/src/Controller/Country/CountryCodeController.dart'
 as country_control;
@@ -281,7 +282,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
                     .size
                     .width,
                 height: 40,
-                decoration: BoxDecoration(color: Colors.orange),
+                decoration: BoxDecoration(color: AppColors.primaryColor),
                 child: Center(
                   child: Text(
                     "Sign Up",
@@ -299,7 +300,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
                 new Checkbox(
                   value: _check_value,
                   onChanged: _value1Changed,
-                  activeColor: Colors.orange,
+                  activeColor: AppColors.primaryColor,
                 ),
                 Text(
                   "Terms and conditions",
@@ -361,7 +362,7 @@ class _RegsiationPageState extends State<RegsiationPage> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 100.0),
         child: SpinKitCircle(
-          color: Colors.orange,
+          color: AppColors.primaryColor,
           size: 60,
         ),
       ),

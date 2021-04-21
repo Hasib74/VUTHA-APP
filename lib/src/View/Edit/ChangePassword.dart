@@ -5,6 +5,7 @@ import 'package:vutha_app/src/Controller/UpdateNumberAndPassword/UpdatePasswordC
     as update_controller;
 import 'package:vutha_app/src/Provider/Update/ChnagePasswordAndNumber.dart';
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/View/Map/MapActivity.dart';
 
 class ChangePassword extends StatelessWidget {
@@ -72,7 +73,7 @@ class ChangePassword extends StatelessWidget {
                 },
                 child: Container(
                   height: 40,
-                  decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+                  decoration: BoxDecoration(color: AppColors.primaryColor, boxShadow: [
                     BoxShadow(
                         color: Colors.black26, blurRadius: 1, spreadRadius: 1)
                   ]),

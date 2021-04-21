@@ -10,6 +10,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vutha_app/src/Controller/LogInAndRegistation/LogInController.dart'
     as controller;
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 import 'package:vutha_app/src/Controller/Country/CountryCodeController.dart'
@@ -156,7 +157,7 @@ class _LogInPageState extends State<LogIn> {
             margin: EdgeInsets.only(left: 0, right: 0),
             width: MediaQuery.of(context).size.width,
             height: 40,
-            decoration: BoxDecoration(color: Colors.orange),
+            decoration: BoxDecoration(color: AppColors.primaryColor),
             child: Center(
               child: Text(
                 "LogIn",
@@ -189,7 +190,7 @@ class _LogInPageState extends State<LogIn> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 100.0),
         child: SpinKitCircle(
-          color: Colors.orange,
+          color: AppColors.primaryColor,
           size: 60,
         ),
       ),

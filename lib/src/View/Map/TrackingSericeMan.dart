@@ -50,7 +50,6 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
 
   @override
   Widget build(BuildContext context) {
-
     isMasterCodeChecked().then((value) {
       if (!value) {
         routeAndRemovePreviousRoute(
@@ -216,37 +215,44 @@ class _TrackingServiceManState extends State<TrackingServiceMan> {
 
   _showDialog(context, type) async {
     await showDialog<String>(
-      context: context,
-      child: new CupertinoAlertDialog(
-        content: Text(
-          type == "confirm" ? "You want to confirm ?" : " You want to cancle ?",
-          style: TextStyle(
-              color: Colors.black87, fontSize: 17, fontWeight: FontWeight.w500),
-        ),
-        actions: <Widget>[
-          new FlatButton(
-              child: const Text(
-                'No',
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () {
-                //////////////////////
+        context: context,
+        builder: (
+          context,
+        ) {
+          return new CupertinoAlertDialog(
+            content: Text(
+              type == "confirm"
+                  ? "You want to confirm ?"
+                  : " You want to cancle ?",
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                  child: const Text(
+                    'No',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onPressed: () {
+                    //////////////////////
 
-                Navigator.pop(context);
-              }),
-          new FlatButton(
-              child: const Text(
-                'YES',
-                style: TextStyle(color: Colors.green),
-              ),
-              onPressed: () {
-                //////////////////////
+                    Navigator.pop(context);
+                  }),
+              new FlatButton(
+                  child: const Text(
+                    'YES',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  onPressed: () {
+                    //////////////////////
 
-                type == "confirm" ? confirmAction() : cancleAction();
-              })
-        ],
-      ),
-    );
+                    type == "confirm" ? confirmAction() : cancleAction();
+                  })
+            ],
+          );
+        });
   }
 
   confirmAction() {

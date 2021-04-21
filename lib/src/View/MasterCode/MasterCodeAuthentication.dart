@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vutha_app/src/Provider/LoadingProvider.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
 import 'package:vutha_app/src/View/Map/MapActivity.dart';
@@ -66,7 +67,7 @@ class MasterCode extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                    color: Colors.orange,
+                                    color: AppColors.primaryColor,
                                     boxShadow: [
                                       BoxShadow(
                                           color: Colors.black26,
@@ -93,7 +94,7 @@ class MasterCode extends StatelessWidget {
                 Text(
                   "OR",
                   style: TextStyle(
-                      color: Colors.orange,
+                      color: AppColors.primaryColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w500),
                 ),
@@ -132,7 +133,7 @@ class MasterCode extends StatelessWidget {
                             child: Text(
                           "www.payfast.co.za",
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.orange),
+                          style: TextStyle(color: AppColors.primaryColor),
                         )),
                       )
                     ],
@@ -141,7 +142,7 @@ class MasterCode extends StatelessWidget {
                 Text(
                   "OR",
                   style: TextStyle(
-                      color: Colors.orange,
+                      color: AppColors.primaryColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w500),
                 ),

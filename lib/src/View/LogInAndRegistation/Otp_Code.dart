@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
 
@@ -103,7 +104,7 @@ class _Otp_CodeState extends State<Otp_Code> {
                                     startLoading,
                                     stopLoading);
                               },
-                              color: Colors.orange,
+                              color: AppColors.primaryColor,
                               child: Text(
                                 "Validate OTP",
                                 style: TextStyle(color: Color(0xffEAEBF2)),
@@ -123,7 +124,7 @@ class _Otp_CodeState extends State<Otp_Code> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 100.0),
                       child: SpinKitCircle(
-                        color: Colors.orange,
+                        color: AppColors.primaryColor,
                         size: 60,
                       ),
                     ),

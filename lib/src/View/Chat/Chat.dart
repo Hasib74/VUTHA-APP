@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vutha_app/src/Middleware/MasterCode.dart';
 import 'package:vutha_app/src/Model/ChatModel.dart';
 import 'package:vutha_app/src/Model/User.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Controller/ChatController/ChatController.dart'
     as controller;
@@ -139,7 +140,7 @@ class _ChatState extends State<Chat> {
       child: Container(
         alignment: Alignment.centerRight,
         decoration: BoxDecoration(
-            color: Colors.orange,
+            color: AppColors.primaryColor,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
@@ -192,7 +193,7 @@ class _ChatState extends State<Chat> {
                           chat_edit_text_controller, widget.number),
                       child: Icon(
                         Icons.send,
-                        color: Colors.orange,
+                        color: AppColors.primaryColor,
                         size: 30,
                       ),
                     )
