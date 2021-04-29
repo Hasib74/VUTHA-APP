@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vutha_app/src/Middleware/MasterCode.dart';
 import 'package:vutha_app/src/Provider/Update/ChnagePasswordAndNumber.dart';
 import 'package:vutha_app/src/Route/Routs.dart';
+import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/View/Edit/ChangeNumber.dart';
 import 'package:vutha_app/src/View/Edit/ChangePassword.dart';
@@ -26,8 +27,6 @@ class ChangePasswordAndNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     isMasterCodeChecked().then((value) {
       if (!value) {
         routeAndRemovePreviousRoute(
@@ -69,6 +68,17 @@ class ChangePasswordAndNumber extends StatelessWidget {
         }
       },
       child: Scaffold(
+        /* appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              Icons.arrow_back,
+              color: AppColors.primaryColor,
+            ),
+          ),
+        ),*/
         key: _globalKey,
         body: Stack(
           children: [

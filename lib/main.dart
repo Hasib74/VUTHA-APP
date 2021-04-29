@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vutha_app/src/Controller/SpController/SpController.dart';
 import 'package:vutha_app/src/Utls/Common.dart';
 import 'package:vutha_app/src/Utls/Functions.dart';
-import 'package:vutha_app/src/View/LogInAndRegistation/InitialPage.dart';
+import 'package:vutha_app/src/View/InitialPage.dart';
 import 'package:vutha_app/src/View/Map/MapActivity.dart';
 
 import 'package:vutha_app/src/Middleware/MasterCode.dart'

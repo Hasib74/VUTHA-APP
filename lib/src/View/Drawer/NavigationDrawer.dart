@@ -6,8 +6,9 @@ import 'package:vutha_app/src/Utls/Functions.dart';
 import 'package:vutha_app/src/View/Chat/Chat.dart';
 import 'package:vutha_app/src/View/Edit/ChangePasswordOrNumber.dart';
 import 'package:vutha_app/src/View/History/History.dart';
-import 'package:vutha_app/src/View/LogInAndRegistation/InitialPage.dart';
+import 'package:vutha_app/src/View/InitialPage.dart';
 import 'package:vutha_app/src/Route/Routs.dart' as routes;
+import 'package:vutha_app/src/View/Medical/MedicalInfoScreen.dart';
 //import 'Chat';
 
 class NavigationDrawer extends StatelessWidget {
@@ -57,7 +58,7 @@ class NavigationDrawer extends StatelessWidget {
                       } catch (err) {}
                     },
                     leading: Icon(
-                      Icons.chat,
+                      Icons.chat_outlined,
                       color: AppColors.primaryColor,
                     ),
                     title: Text(
@@ -78,7 +79,7 @@ class NavigationDrawer extends StatelessWidget {
                       color: AppColors.primaryColor,
                     ),
                     title: Text(
-                      "Histoty",
+                      "History",
                       style: TextStyle(
                           color: AppColors.primaryColor,
                           fontWeight: FontWeight.bold,
@@ -100,6 +101,31 @@ class NavigationDrawer extends StatelessWidget {
                     ),
                     title: Text(
                       "Chnage Password Or Number",
+                      style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      // removeLogInInfo(context);
+
+                      print("Medical Info Screen");
+
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => MedicalInfoScreen()));
+
+                    },
+                    leading: Icon(
+                      Icons.medical_services_outlined,
+                      color: AppColors.primaryColor,
+                    ),
+                    title: Text(
+                      "Medical Bureau",
                       style: TextStyle(
                           color: AppColors.primaryColor,
                           fontWeight: FontWeight.bold,
