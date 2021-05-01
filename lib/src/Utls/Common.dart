@@ -1,33 +1,31 @@
 import 'package:geocoder/geocoder.dart';
 import 'package:vutha_app/src/Model/User.dart';
 
+class Common {
+  static String USER = "User";
+  static String MEDICAL_INFO = "Medical_Info";
 
-class Common{
+  static String user_number;
 
- static  String USER="User";
+  static String help_request = "HelpRequest";
+  static var Chat = "Chat";
 
- static  String user_number  ;
- static  String help_request = "HelpRequest";
- static  var Chat ="Chat";
+  static var TOKEN = "Token";
+  static var ADMIN = "Admin";
+  static var HISTORY = "History";
 
- static var TOKEN ="Token";
- static var ADMIN="Admin";
- static var HISTORY = "History" ;
+  static var CANCLE = "Cancle";
 
- static var CANCLE = "Cancle";
+  static var SERVE = "Serve";
 
- static var SERVE = "Serve";
+  static User user;
 
- static User user;
+  static Future<String> getUserLocation(lat, lan) async {
+    final coordinates = new Coordinates(lat, lan);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
 
- static Future<String> getUserLocation(lat, lan) async {
-  final coordinates = new Coordinates(lat, lan);
-  var addresses =
-  await Geocoder.local.findAddressesFromCoordinates(coordinates);
-  var first = addresses.first;
-
-  return '${first.addressLine}   ';
- }
-
-
+    return '${first.addressLine}   ';
+  }
 }

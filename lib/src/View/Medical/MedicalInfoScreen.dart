@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:vutha_app/src/Controller/MedicalInfoController/MedicalInfoController.dart';
+import 'package:vutha_app/src/Provider/LoadingProvider.dart';
 import 'package:vutha_app/src/Utls/AppConstant/AppColors.dart';
 import 'package:vutha_app/src/Utls/AppConstant/AppSpaces.dart';
 
 class MedicalInfoScreen extends StatefulWidget {
   @override
-  _MedicalInfoScreenState createState() => _MedicalInfoScreenState();
+  MedicalInfoScreenState createState() => MedicalInfoScreenState();
 }
 
-class _MedicalInfoScreenState extends State<MedicalInfoScreen> {
+class MedicalInfoScreenState extends State<MedicalInfoScreen> {
   var _organic_donor = 0;
   var _blood_type = 0;
 
@@ -19,38 +20,50 @@ class _MedicalInfoScreenState extends State<MedicalInfoScreen> {
     _medicalInfoController = new MedicalInfoController(context);
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            AppColors.secondaryColor,
-            AppColors.primaryColor,
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          child: SingleChildScrollView(
-            child: Column(
-              //  mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                AppSpaces.spaces_height_15,
-                _icon(),
-                AppSpaces.spaces_height_15,
-                _medical_aid(),
-                AppSpaces.spaces_height_15,
-                _generalMedicalInfo(),
-                AppSpaces.spaces_height_5,
-                _blood_type_group(),
-                AppSpaces.spaces_height_15,
-                _next_of_kin(),
-                AppSpaces.spaces_height_15,
-                _medical_condition(),
-                AppSpaces.spaces_height_15,
-                _save_button(),
-                AppSpaces.spaces_height_15,
-                AppSpaces.spaces_height_15,
-              ],
-            ),
+        child: AbsorbPointer(
+          absorbing: _medicalInfoController.loading,
+          child: Stack(
+            children: [
+              _body(context),
+              _loading(),
+            ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Container _body(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [
+        AppColors.secondaryColor,
+        AppColors.primaryColor,
+      ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+      child: SingleChildScrollView(
+        child: Column(
+          //  mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            AppSpaces.spaces_height_15,
+            _icon(),
+            AppSpaces.spaces_height_15,
+            _medical_aid(),
+            AppSpaces.spaces_height_15,
+            _generalMedicalInfo(),
+            AppSpaces.spaces_height_5,
+            _blood_type_group(),
+            AppSpaces.spaces_height_15,
+            _next_of_kin(),
+            AppSpaces.spaces_height_15,
+            _medical_condition(),
+            AppSpaces.spaces_height_15,
+            _save_button(),
+            AppSpaces.spaces_height_15,
+            AppSpaces.spaces_height_15,
+          ],
         ),
       ),
     );
@@ -711,5 +724,18 @@ class _MedicalInfoScreenState extends State<MedicalInfoScreen> {
         )
       ],
     );
+  }
+
+  update() {
+    if (mounted) setState(() {});
+  }
+
+  _loading() {
+    return _medicalInfoController.loading
+        ? Align(
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          )
+        : Container();
   }
 }

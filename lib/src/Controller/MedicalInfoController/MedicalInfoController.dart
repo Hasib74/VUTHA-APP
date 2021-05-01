@@ -1,20 +1,27 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:vutha_app/src/Utls/Common.dart';
+import 'package:vutha_app/src/View/Medical/MedicalInfoScreen.dart';
 
 class MedicalInfoController {
   BuildContext _context;
+  FirebaseDatabase _firebaseDatabase;
 
   static final MedicalInfoController _singleton =
       MedicalInfoController._internal();
 
   factory MedicalInfoController(BuildContext context) {
     _singleton._context = context;
-
     _singleton.blood_type_fn(0);
     _singleton.organic_donor = true;
     return _singleton;
   }
 
   MedicalInfoController._internal();
+
+  //loading.............
+
+  bool loading = false;
 
   TextEditingController medical_aid_name_controller =
       new TextEditingController();
@@ -88,6 +95,38 @@ class MedicalInfoController {
       print("name controller ${name_controller.value.text}");
       print(
           "contact number controller ${contact_number_controller.value.text}");
+
+      Map<String, dynamic> _body = {
+        "Medical Aid Name": medical_aid_name_controller.value.text,
+        "Medical Aid Number": medical_aid_number_controller.value.text,
+        "Medical Aid Option and Plan":
+            medical_aid_option_or_plan_controller.value.text,
+        "Main Member Name": main_member_name_controller.value.text,
+        "Name": name_controller.value.text,
+        "Contact Number": contact_number_controller.value.text,
+        "Organ donor": organic_donor,
+        "Blood type group": blood_type,
+        "Medical Condition": medical_conditions
+      };
+
+      loading = true;
+      MedicalInfoScreen().createState().update();
+      FirebaseDatabase.instance
+          .reference()
+          .child(Common.USER)
+          .child(Common.user_number)
+          .child(Common.MEDICAL_INFO)
+          .set(_body)
+          .then((value) {
+        loading = false;
+        MedicalInfoScreen().createState().update();
+        print("Successfully added data");
+      }).catchError((err) {
+        print("Error is ${err}");
+
+        loading = false;
+        MedicalInfoScreen().createState().update();
+      });
     }
   }
 
@@ -114,8 +153,10 @@ class MedicalInfoController {
       _valid = false;
       showSnackBar(_context, message: "Contact number can not be empty");
     } else {
-      return true;
+      _valid = true;
     }
+
+    return _valid;
   }
 
   showSnackBar(BuildContext context,
